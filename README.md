@@ -11,7 +11,7 @@ Subtractor : Subtractor thread decrement the shared variable 100 times.
 Expected Result : The value of the shared variable should be 0.
 Actual result : The value is non zero.
 
-package multithreading;
+`package multithreading;
 
 public class Adder extends Thread {
 
@@ -29,7 +29,7 @@ public class Adder extends Thread {
 		System.out.println("--------- Adder Completed ----------");
 	}
 
-}
+}`
 
 
 package multithreading;
