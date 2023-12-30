@@ -7,20 +7,10 @@ public class SharedResorceWithSynchronized extends SharedResorce{
 	}
 
 	public synchronized void increment() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		super.increment();
 	}
 
 	public synchronized void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		super.decrement();
 	}
 }

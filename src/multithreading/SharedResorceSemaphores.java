@@ -11,11 +11,6 @@ public class SharedResorceSemaphores extends SharedResorce {
 
 	public void increment() {
 		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
 			semaphore.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -25,11 +20,6 @@ public class SharedResorceSemaphores extends SharedResorce {
 	}
 
 	public void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		try {
 			semaphore.acquire();
 		} catch (InterruptedException e) {

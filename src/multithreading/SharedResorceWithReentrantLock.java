@@ -11,24 +11,14 @@ public class SharedResorceWithReentrantLock extends SharedResorce {
 	}
 
 	public void increment() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		lock.lock();
+		lock.lock();//aquire the lock
 		super.increment();
-		lock.unlock();
+		lock.unlock();//release the lock
 	}
 
 	public void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		lock.lock();
+		lock.lock();//aquire the lock
 		super.decrement();
-		lock.unlock();
+		lock.unlock();//release the lock
 	}
 }
