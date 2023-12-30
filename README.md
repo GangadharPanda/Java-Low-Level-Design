@@ -144,20 +144,10 @@ public class SharedResorceWithSynchronized extends SharedResorce{
 	}
 
 	public synchronized void increment() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		super.increment();
 	}
 
 	public synchronized void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		super.decrement();
 	}
 }
@@ -202,22 +192,12 @@ public class SharedResorceWithReentrantLock extends SharedResorce {
 	}
 
 	public void increment() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		lock.lock();//aquire the lock
 		super.increment();
 		lock.unlock();//release the lock
 	}
 
 	public void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		lock.lock();//aquire the lock
 		super.decrement();
 		lock.unlock();//release the lock
@@ -243,11 +223,6 @@ public class SharedResorceSemaphores extends SharedResorce {
 
 	public void increment() {
 		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
 			semaphore.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -257,11 +232,6 @@ public class SharedResorceSemaphores extends SharedResorce {
 	}
 
 	public void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		try {
 			semaphore.acquire();
 		} catch (InterruptedException e) {
