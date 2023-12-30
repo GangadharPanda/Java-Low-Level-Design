@@ -12,26 +12,35 @@ Expected Result : The value of the shared variable should be 0.
 Actual result : The value is non zero.
 
 package multithreading;
-public class Adder extends Thread{
+
+public class Adder extends Thread {
+
 	SharedResorce sharedResorce;
+
 	public Adder(SharedResorce sharedResorce) {
 		this.sharedResorce = sharedResorce;
 	}
+
 	public void run() {
 		System.out.println("--------- Adder started ----------");
-		for(int i = 0; i < 100; i++) {
+		for (int i = 0; i < 100; i++) {
 			sharedResorce.increment();
 		}
 		System.out.println("--------- Adder Completed ----------");
 	}
+
 }
 
+
 package multithreading;
+
 public class Subtractor extends Thread {
 	SharedResorce sharedResorce;
+
 	public Subtractor(SharedResorce sharedResorce) {
 		this.sharedResorce = sharedResorce;
 	}
+
 	public void run() {
 		System.out.println("--------- Subtractor started ----------");
 		for (int i = 0; i < 100; i++) {
@@ -40,6 +49,7 @@ public class Subtractor extends Thread {
 		System.out.println("--------- Subtractor Completed ----------");
 	}
 }
+
 
 package multithreading;
 
