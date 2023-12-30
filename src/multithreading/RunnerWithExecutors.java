@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class RunnerTest {
+public class RunnerWithExecutors {
 
 	public static void main(String[] args) throws InterruptedException {
 		SharedResorce c = new SharedResorce(0);// Common object
@@ -21,7 +21,7 @@ public class RunnerTest {
 			e.printStackTrace();
 		}
 
-		c.show();
+		c.getCount();
 
 	}
 

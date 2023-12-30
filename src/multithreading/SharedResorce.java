@@ -25,7 +25,7 @@ public class SharedResorce {
 		count--;
 	}
 
-	public void show() {
-		System.out.println(count);
+	public int getCount() {
+		return count;
 	}
 }
