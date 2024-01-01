@@ -1,244 +1,180 @@
-# Java Synchronization
+# How to Create a Thread in Java
 
-When multiple threads access shared resources, it can lead to synchronization issues. Let’s explore the need for synchronization, the issues that arise without it, and the solutions available in Java.
+To implement multithreading, Java defines two ways by which a thread can be created.
 
-# What is the issue if we don't use synchronization?
+1. By extending the Thread class.
+2. By implementing the Runnable interface.
 
-Let's look at the below example , where a share resource is used by multiple threads.
-1. ShareResource : This is the object shared among two threads.
-2. Adder : Adder thread increment the share variable 100 times.
-3. Subtractor : Subtractor thread decrement the shared variable 100 times.
-4. Expected Result : The value of the shared variable should be 0.
-5. Actual result : The value is non zero.
+## Extending Thread class
+
+Create a thread by a new class that extends Thread class and create an instance of that class. 
+The extending class must override run() method which is the entry point of new thread.
+
+Below example creates a thread which calculates the Square of given number
+
 ```
-package multithreading;
+package multithreading.creation;
 
-public class Adder extends Thread {
+public class SquarePrinterUsingThreads extends Thread {
 
-	SharedResorce sharedResorce;
+	private Integer number;
+	private String name;
 
-	public Adder(SharedResorce sharedResorce) {
-		this.sharedResorce = sharedResorce;
+	SquarePrinterUsingThreads(Integer number, String name) {
+		this.number = number;
+		this.name = name;
 	}
 
+	@Override
 	public void run() {
-		System.out.println("--------- Adder started ----------");
-		for (int i = 0; i < 100; i++) {
-			sharedResorce.increment();
-		}
-		System.out.println("--------- Adder Completed ----------");
+		System.out.println(
+				"Square of the number " + number + " = " + (number * number) + " calculated By Thread " + name);
 	}
 
 }
-```
-```
-package multithreading;
 
-public class Subtractor extends Thread {
-	SharedResorce sharedResorce;
+```
 
-	public Subtractor(SharedResorce sharedResorce) {
-		this.sharedResorce = sharedResorce;
+## Implementing the Runnable Interface
+
+The easiest way to create a thread is to create a class that implements the runnable interface. After implementing runnable interface, the class needs to implement the run() method.
+
+Below example creates a thread which calculates the Square of given number
+
+```
+package multithreading.creation;
+
+public class SquarePrinterUsingRunnable implements Runnable {
+	private Integer number;
+	private String name;
+
+	SquarePrinterUsingRunnable(Integer number, String name) {
+		this.number = number;
+		this.name = name;
 	}
 
+	@Override
 	public void run() {
-		System.out.println("--------- Subtractor started ----------");
-		for (int i = 0; i < 100; i++) {
-			sharedResorce.decrement();
-		}
-		System.out.println("--------- Subtractor Completed ----------");
+		System.out.println(
+				"Square of the number " + number + " = " + (number * number) + " calculated By Runnable " + name);
+
 	}
 }
 ```
-```
-package multithreading;
+package multithreading.creation;
 
-public class SharedResorce {
-	private int count = 0;
-
-	public SharedResorce(int count) {
-		this.count = count;
-	}
-
-	public void  increment() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		count++;
-	}
-
-	public void decrement() {
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		count--;
-	}
-
-	public int getCount() {
-		return count;
-	}
-}
-```
-```
-
-package multithreading;
+import java.util.List;
 
 public class Runner {
 
 	public static void main(String[] args) {
-		SharedResorce sharedResource = new SharedResorce(0);
-		Thread adder = new Adder(sharedResource);
-		Thread subtractor = new Subtractor(sharedResource);
+		List<Integer> nums = List.of(1, 2, 3, 4, 5);
 
-		/*
-		 * When we try to use multiple threads on a share object , if the shared
-		 * resource is not synchronized it can cause inconsistent results.
-		 * 
-		 * Adder thread increments the shared variable 100 times , and Subtractor thread
-		 * decrements the value 100 times.
-		 * 
-		 * Intentionally , the threads are sleeping for 10 ms , to ensure both
-		 * of these threads gets the chance to update the shared variable.
+		for (Integer num : nums) {
+			Thread squarePrinter = new SquarePrinterUsingThreads(num, "Square Printer");
+			squarePrinter.start();
+		}
+		
+		//Output 
+		
+		/**
+		 * 	Square of the number 1 = 1 calculated By Square Printer thread
+		   	Square of the number 2 = 4 calculated By Square Printer thread
+			Square of the number 3 = 9 calculated By Square Printer thread
+			Square of the number 4 = 16 calculated By Square Printer thread
+			Square of the number 5 = 25 calculated By Square Printer thread
 		 * 
 		 */
-
-		adder.start();
-		subtractor.start();
-		try {
-			adder.join();
-			subtractor.join();
-		} catch (Exception e) {
-			// TODO: handle exception
+		// Using Runnable 
+		for (Integer num : nums) {
+			Runnable squarePrinterRunnable = new SquarePrinterUsingRunnable(num, "Square Printer");
+			Thread thread = new Thread(squarePrinterRunnable);
+			thread.start();
 		}
-		// The correct value of the output should be 0 , but it's non 0
-		System.out.println(sharedResource.getCount());
-  }
+		
+		
+	}
+
+}
+
+# Problem with both of the above approach is , the thread can not return a value 
+
+However, one feature lacking in  Runnable is that we cannot make a thread return result when it terminates,
+i.e. when run() completes. 
+For supporting this feature, the Callable interface is present in Java.
+
+```
+package multithreading.creation;
+
+import java.util.concurrent.Callable;
+
+public class SquareReturnerUsingCallable implements Callable<Integer> {
+
+	private Integer number;
+
+	SquareReturnerUsingCallable(Integer number) {
+		this.number = number;
+	}
+
+	@Override
+	public Integer call() throws Exception {
+		System.out.println("Calculating the Square of " + number);
+		return number * number;
+	}
+
 }
 ```
 
 
-# How to fix this?
-There are 3 ways to fix this issue 
-1. synchoronized keyword
-2. Mutex lock
-3. Binary Semaphores
-
-## synchronized keyword
-
-If we synchoronize both the methods increment() and decrement(), only one thread can execute either method at a time . 
-i.e if Adder thread is trying to call increment method , no other thread can execute increment or decrement mentod at the same time.
-
-find the below code , 
-
 ```
-package multithreading;
+package multithreading.creation;
 
-public class SharedResorceWithSynchronized extends SharedResorce{
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-	public SharedResorceWithSynchronized(int count) {
-		super(count);
-	}
-
-	public synchronized void increment() {
-		super.increment();
-	}
-
-	public synchronized void decrement() {
-		super.decrement();
-	}
-}
-```
-```
-package multithreading;
-
-public class Runner {
+public class CallableRunner {
 
 	public static void main(String[] args) {
-		SharedResorce sharedResource = new SharedResorceWithSynchronized(0);
-		Thread adder = new Adder(sharedResource);
-		Thread subtractor = new Subtractor(sharedResource);
+		// Create a list of Integers
+		List<Integer> nums = List.of(1, 2, 3, 4, 5);
 
-		adder.start();
-		subtractor.start();
-		try {
-			adder.join();
-			subtractor.join();
-		} catch (Exception e) {
-			// TODO: handle exception
+		// Create the ExecutorsService , because we don't have any Thread Constructor
+		// which have Callable as an parameter
+		ExecutorService exs = Executors.newCachedThreadPool();
+
+		// Store the result calculated by the thread
+
+		List<Future<Integer>> results = new ArrayList<>();
+
+		// Submit all these values to the executor
+		for (Integer num : nums) {
+			Callable<Integer> thread = new SquareReturnerUsingCallable(num);
+			results.add(exs.submit(thread));
 		}
-		System.out.println(sharedResource.getCount());// 0 , as EXECTED
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		for (Future<Integer> result : results) {
+			try {
+				System.out.println(result.get());
+				// result.get() is a BLOCKing method call
+				// So it will sleep and wait till the result is calculated
+
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+
 }
 ```
 
-
-## Mutex Lock
-
-```
-package multithreading;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-public class SharedResorceWithReentrantLock extends SharedResorce {
-	Lock lock = new ReentrantLock();
-
-	public SharedResorceWithReentrantLock(int count) {
-		super(count);
-	}
-
-	public void increment() {
-		lock.lock();//aquire the lock
-		super.increment();
-		lock.unlock();//release the lock
-	}
-
-	public void decrement() {
-		lock.lock();//aquire the lock
-		super.decrement();
-		lock.unlock();//release the lock
-	}
-}
-
-```
-
-
-## Binary Semaphore
-
-```
-package multithreading;
-
-import java.util.concurrent.Semaphore;
-
-public class SharedResorceSemaphores extends SharedResorce {
-	Semaphore semaphore = new Semaphore(1);
-
-	public SharedResorceSemaphores(int count) {
-		super(count);
-	}
-
-	public void increment() {
-		try {
-			semaphore.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		super.increment();
-		semaphore.release();
-	}
-
-	public void decrement() {
-		try {
-			semaphore.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		super.decrement();
-		semaphore.release();
-	}
-}
-```
