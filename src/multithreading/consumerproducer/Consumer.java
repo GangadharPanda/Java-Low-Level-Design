@@ -1,17 +1,24 @@
 package multithreading.consumerproducer;
 
+import java.util.Queue;
+
 public class Consumer implements Runnable {
 
-	SharedBuffer buffer;
+	private Queue<UnitOfWork> buffer;
+	private String name;
 
-	public Consumer(SharedBuffer buffer) {
+	public Consumer(Queue<UnitOfWork> buffer, String name) {
 		this.buffer = buffer;
+		this.name = name;
 	}
 
 	@Override
 	public void run() {
-		for (int i = 1; i <= 10; i++) {
-			buffer.consume();
+		while (true) {
+			if (buffer.size() > 0) {
+				buffer.remove();
+				System.out.println("Consumed item by " + name + " and the buffer size is " + buffer.size());
+			}
 		}
 	}
 

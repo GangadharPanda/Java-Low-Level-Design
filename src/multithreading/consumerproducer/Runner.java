@@ -1,30 +1,19 @@
 package multithreading.consumerproducer;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class Runner {
 
 	public static void main(String[] args) {
-		SharedBuffer buffer = new SharedBuffer();
-		Runnable producer = new Producer(buffer);
-		Runnable consumer = new Consumer(buffer);
-
-		ExecutorService executorService = Executors.newCachedThreadPool();
-
-		executorService.execute(producer);
-		executorService.execute(consumer);
-		System.out.println(buffer.getBuffer());
-		try {
-			executorService.awaitTermination(5, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Queue<UnitOfWork> buffer = new ArrayDeque<>();
+		int maxSize = 10;
+		for (int i = 0; i <= 3; i++) {
+			Runnable producer = new Producer(buffer, "Producer " + i, maxSize);
+			Runnable consumer = new Consumer(buffer, "Consumer " + i);
+			new Thread(producer).start();
+			new Thread(consumer).start();
 		}
-
-		System.out.println(buffer.getBuffer());
-
 	}
 
 }
