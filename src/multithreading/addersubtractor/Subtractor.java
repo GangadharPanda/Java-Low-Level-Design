@@ -1,4 +1,4 @@
-package multithreading;
+package multithreading.addersubtractor;
 
 public class Subtractor extends Thread {
 	SharedResorce sharedResorce;

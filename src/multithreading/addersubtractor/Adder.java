@@ -1,4 +1,4 @@
-package multithreading;
+package multithreading.addersubtractor;
 
 public class Adder extends Thread {
 

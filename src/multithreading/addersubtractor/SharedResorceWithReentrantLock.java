@@ -1,4 +1,4 @@
-package multithreading;
+package multithreading.addersubtractor;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

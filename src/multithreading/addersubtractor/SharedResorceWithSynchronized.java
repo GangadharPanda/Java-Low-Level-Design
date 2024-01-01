@@ -1,4 +1,4 @@
-package multithreading;
+package multithreading.addersubtractor;
 
 public class SharedResorceWithSynchronized extends SharedResorce{
 
