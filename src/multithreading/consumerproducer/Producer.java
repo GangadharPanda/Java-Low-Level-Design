@@ -1,6 +1,7 @@
 package multithreading.consumerproducer;
 
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 public class Producer implements Runnable {
 
@@ -20,6 +21,11 @@ public class Producer implements Runnable {
 			if (buffer.size() < maxSize) {
 				buffer.add(new UnitOfWork());
 				System.out.println("Produced new item by " + name + " and the buffer size is " + buffer.size());
+				try {
+	                TimeUnit.SECONDS.sleep(1);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
 			}
 		}
 	}

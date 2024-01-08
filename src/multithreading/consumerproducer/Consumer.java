@@ -1,6 +1,7 @@
 package multithreading.consumerproducer;
 
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 public class Consumer implements Runnable {
 
@@ -18,6 +19,11 @@ public class Consumer implements Runnable {
 			if (buffer.size() > 0) {
 				buffer.remove();
 				System.out.println("Consumed item by " + name + " and the buffer size is " + buffer.size());
+				try {
+	                TimeUnit.SECONDS.sleep(2);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
 			}
 		}
 	}
