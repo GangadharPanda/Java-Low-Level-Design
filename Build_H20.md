@@ -21,21 +21,32 @@ Write synchronization code for oxygen and hydrogen molecules that enforces these
 ```java
 
 class H2O {
+    Semaphore hydrogenSemaphore;
+    Semaphore oxygenSemaphore;
 
     public H2O() {
-        
+        hydrogenSemaphore = new Semaphore(2);
+        oxygenSemaphore = new Semaphore(0);
     }
 
     public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
 		
         // releaseHydrogen.run() outputs "H". Do not change or remove this line.
+        hydrogenSemaphore.aquire();
         releaseHydrogen.run();
+        
+        if(hydrogenSemaphore.availablePermits() == 0){
+          oxygenSemaphore.release();
+        }
+        
     }
 
     public void oxygen(Runnable releaseOxygen) throws InterruptedException {
         
         // releaseOxygen.run() outputs "O". Do not change or remove this line.
+      oxygenSemaphore.acquire();
 		releaseOxygen.run();
+		hydrogenSemaphore.release();
     }
 }
 
