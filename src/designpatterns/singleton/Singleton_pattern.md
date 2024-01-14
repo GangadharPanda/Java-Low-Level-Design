@@ -114,14 +114,14 @@ public class DBConnectionWithDoubleCheckLocking {
 		/**
 		 * 
 		 * Suppose T1 and T2 are two threads calling the getInstance method both finds
-		 * dbConnection == null and enters the if condition now, suppose T1 acquires the
-		 * lock, creates the instance and release the lock also returns the instance now
+		 * dbConnection == null and enters the if condition.
+		 * Now, suppose T1 acquires the lock, creates the instance and release the lock also returns the instance.
 		 * T2 which was waiting for locks, acquires the lock and creates the instance so
-		 * both creates two different instance
+		 * both creates two different instances.
 		 * 
 		 * To solve issue , if we add another check of instance == null , so that T2
 		 * checks if some other thread has created the instance In that case T2 simply
-		 * returns the already created instance
+		 * returns the already created instance.
 		 * 
 		 * 
 		 * 
@@ -135,7 +135,17 @@ public class DBConnectionWithDoubleCheckLocking {
 		return dbConnection;
 	}
 }
+
 ```
+
+
+Double check singleton pattern
+
+However this implementation is buggy if we forget to declare the variable instance as volatile .
+Without volatile we don't have happens before link between synchronize write and read. 
+
+Volatile ensure that multiple threads read the correct instance value.
+Also make object immutable.
 
 
 

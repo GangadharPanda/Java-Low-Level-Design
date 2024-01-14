@@ -2,7 +2,7 @@ package designpatterns.singleton;
 
 public class DBConnection {
 
-	private static DBConnection dbConnection = null;
+	private static volatile DBConnection dbConnection = null;
 
 	private DBConnection() {
 	}
