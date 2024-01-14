@@ -32,7 +32,6 @@ public class SquarePrinterUsingThreads extends Thread {
 	}
 
 }
-
 ```
 
 ## Implementing the Runnable Interface
@@ -60,7 +59,7 @@ public class SquarePrinterUsingRunnable implements Runnable {
 
 	}
 }
-```
+
 package multithreading.creation;
 
 import java.util.List;
@@ -96,6 +95,7 @@ public class Runner {
 	}
 
 }
+```
 
 # Problem with both of the above approach is , the thread can not return a value 
 
