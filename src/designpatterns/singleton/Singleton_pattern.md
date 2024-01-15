@@ -120,8 +120,8 @@ public class DBConnectionWithDoubleCheckLocking {
 		 * both creates two different instances.
 		 * 
 		 * To solve issue , if we add another check of instance == null , so that T2
-		 * checks if some other thread has created the instance In that case T2 simply
-		 * returns the already created instance.
+		 * checks if some other thread has already created the instance. In that case T2 simply
+		 * returns instance.
 		 * 
 		 * 
 		 * 
