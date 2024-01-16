@@ -132,29 +132,103 @@ This will lead to compile time error.
   There are two issues with this approach 
   
   1. As we are inserting the keys manually , there is no compile time safety is available.
-    i. e I can type namae in place of name and we will know this mistake at runtime .
+    i. e I can type Name in place of name and we will know this mistake at runtime .
     
   2. As the value is of type Object , each parameter has to be type casted carefully.
     
     suppose I write 
     requestParams.put("age", "33");
     
-   This is gonna break at runtime.
-    
+   This is going to break at runtime the error
    
+   ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer.
    
-  
-  
-   
-    
-    
 
-      
-  
-      
+---------------------------------------------------------------------------------------------------------
  
-   
+ # How can we fix this issue ??
+ 
+ What if create a helper Class , which has all the attribute as original class ?
+ 
+ 
+  ```java
+  
+	 	package designpatterns.builder;
+	
+		import lombok.Getter;
+		import lombok.NoArgsConstructor;
+		import lombok.Setter;
+		
+		@Getter
+		@Setter
+		@NoArgsConstructor
+		public class StudentHelper {
+			private String name;
+			private int age;
+			private Double psp;
+			private String universityName;
+		}
+		
+ ```
+ 
+ Actual Student Class
+ 
+ ```java
+ 
+ package designpatterns.builder;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class StudentWithHelper {
+
+	private String name;
+	private int age;
+	private Double psp;
+	private String universityName;
+
+	StudentWithHelper(StudentHelper helper) {
+		if (helper.getAge() <= 14)
+			throw new IllegalArgumentException("This must be more than 14 ");
+		this.name = helper.getName();
+		this.age = helper.getAge();
+		this.psp = helper.getPsp();
+		this.universityName = helper.getUniversityName();
+	}
+}
+ 
+ 
+ ```
+ 
+ Runner Class
+ 
+ ```java
+ 
+ package designpatterns.builder;
+
+public class RunnerWithHelper {
+
+	public static void main(String[] args) {
+		StudentHelper stHelper = new StudentHelper();
+		stHelper.setName("Gangadhar");
+		stHelper.setAge(33);
+		stHelper.setPsp(74d);
+		stHelper.setUniversityName("Neo University");
+
+		StudentWithHelper st = new StudentWithHelper(stHelper);
+		System.out.println(st.getName() + " is of age " + st.getAge());
+	}
+}
+ 
+ 
+ ```
+---
+
+Above code solves all our problems , but introduces a StudentHelper class which is of no use of its own but just there to help the Student Object creation
+
+So we are going to make it a inner class of the Student class
 
 
 

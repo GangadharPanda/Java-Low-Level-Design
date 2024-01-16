@@ -1,16 +1,19 @@
 package designpatterns.builder;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Runner {
 
 	public static void main(String[] args) {
-		Map<String, Object> requestParams = new HashMap<>();
+		try {
+			Student st = Student.getBuilder()
+					.setName("Gangadhar")
+					.setAge(33)
+					.setPsp(74d)
+					.setUniversityName("NEO University")
+					.build();
 
-		requestParams.put("name", "Gangadhar");
-		requestParams.put("age", 33);
-		Student st = new Student(requestParams);
-		System.out.println(st.getName() + " is of age " + st.getAge());
+			System.out.println(st.getName() + " " + st.getAge());
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 }
