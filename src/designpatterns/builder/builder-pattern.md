@@ -128,6 +128,18 @@ This will lead to compile time error.
 	   }
 	  
   ```
+  
+  There are two issues with this approach 
+  
+  1. As we are inserting the keys manually , there is no compile time safety is available.
+    i. e I can type namae in place of name and we will know this mistake at runtime .
+    
+  2. As the value is of type Object , each parameter has to be type casted carefully.
+    
+    suppose I write 
+    requestParams.put("age", "33");
+    
+   This is gonna break at runtime.
     
    
    
