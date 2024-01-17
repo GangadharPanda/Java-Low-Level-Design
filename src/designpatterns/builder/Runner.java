@@ -10,7 +10,7 @@ public class Runner {
 					.setPsp(74d)
 					.setUniversityName("NEO University")
 					.build();
-
+			
 			System.out.println(st.getName() + " " + st.getAge());
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

@@ -231,4 +231,102 @@ Above code solves all our problems , but introduces a StudentHelper class which 
 So we are going to make it a inner class of the Student class
 
 
+```java
+
+package designpatterns.builder;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+public class Student {
+
+	private String name;
+	private int age;
+	private Double psp;
+	private String universityName;
+	
+	// NOTE 1 : Student class objects are immutable , so no setters are available here.
+
+	// NOTE 2 : Only way to create Student Object is calling getBuilder() method
+	private Student(Builder builder) {
+		this.name = builder.getName();
+		this.age = builder.getAge();
+		this.psp = builder.getPsp();
+		this.universityName = builder.getUniversityName();
+	}
+
+	static class Builder {
+		private String name;
+		private int age;
+		private Double psp;
+		private String universityName;
+
+      // NOTE 3 : Builder object does not have any existence without the Student Object
+		private Builder() {
+
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public Builder setName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public int getAge() {
+			return age;
+		}
+
+		public Builder setAge(int age) {
+			this.age = age;
+			return this;
+		}
+
+		public Double getPsp() {
+			return psp;
+		}
+
+		public Builder setPsp(Double psp) {
+			this.psp = psp;
+			return this;
+		}
+
+		public String getUniversityName() {
+			return universityName;
+		}
+
+		public Builder setUniversityName(String universityName) {
+			this.universityName = universityName;
+			return this;
+		}
+
+		boolean isValid() {
+			if (this.getAge() < 13) {
+				return false;
+			}
+			return true;
+		}
+		
+		 // NOTE 4 : This is the only way to create Student Object
+		public Student build() throws IllegalAccessException {
+			if (!isValid()) {
+				throw new IllegalAccessException("Please provide parameter");
+			}
+			return new Student(this);
+		}
+
+	}
+
+	public static Builder getBuilder() {
+		return new Builder();
+	}
+}
+
+
+```
+
+
 
