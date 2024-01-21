@@ -18,7 +18,7 @@ public class Runner {
 		StudentRegistry registry = new StudentRegistry();
 		initializeRegistry(registry);
 
-		Student gangadhar = registry.get("Sept23Morning").copy();
+		Student gangadhar = registry.get("Sept23Morning").clone();
 
 		gangadhar.setName("Gangadhar");
 		gangadhar.setPsp(74);
@@ -28,7 +28,7 @@ public class Runner {
 		
 		//-----------------------------------
 		
-		Student gangadharStudent = registry.get("Oct23Morning").copy();
+		Student gangadharStudent = registry.get("Oct23Morning").clone();
 
 		gangadharStudent.setName("Gangadhar");
 		gangadharStudent.setPsp(74);

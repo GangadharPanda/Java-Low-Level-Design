@@ -28,7 +28,7 @@ public class Student implements Prototype<Student> {
 	}
 
 	@Override
-	public Student copy() {
+	public Student clone() {
 		return new Student(this);
 	}
 

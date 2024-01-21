@@ -11,7 +11,7 @@ public class IntelligentStudent extends Student {
 	private int iq;
 
 	@Override
-	public IntelligentStudent copy() {
+	public IntelligentStudent clone() {
 		IntelligentStudent student = new IntelligentStudent();
 		student.setName(this.getName());
 		student.setAge(this.getAge());
