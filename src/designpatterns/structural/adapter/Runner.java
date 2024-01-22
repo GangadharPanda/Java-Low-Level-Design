@@ -4,7 +4,7 @@ public class Runner {
 
 	public static void main(String[] args) {
 
-		PaymentProviderAdaptor adapter = new PayUAdaptor();
+		PaymentProviderAdapter adapter = new PayUAdapter();
 		RequestParameters params = new RequestParameters();
 		
 		params.setId(1);
@@ -17,7 +17,7 @@ public class Runner {
 		
 		System.out.println("------------------");
 		
-		adapter = new RazorPayAdaptor();
+		adapter = new RazorPayAdapter();
 		adapter.sendMoney(params);
 		System.out.println(adapter.getStatus(1));
 

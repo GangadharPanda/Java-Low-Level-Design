@@ -1,6 +1,6 @@
 package designpatterns.structural.adapter;
 
-public interface PaymentProviderAdaptor {
+public interface PaymentProviderAdapter {
 
 	void sendMoney(RequestParameters params);
 

@@ -1,26 +1,27 @@
 package designpatterns.structural.adapter;
 
-public class RazorPayAdaptor implements PaymentProviderAdaptor {
-	RazorPayApi api;
+public class PayUAdapter implements PaymentProviderAdapter {
 
-	RazorPayAdaptor() {
-		api = new RazorPayApi();
+	PayUApi api;
+
+	PayUAdapter() {
+		api = new PayUApi();
 	}
 
 	@Override
 	public void sendMoney(RequestParameters params) {
-		api.pay(params.getId(), params.getName(), params.getEmail(), params.getAmount());
+		api.sendMoney(params.getId(), params.getAmount());
 	}
 
 	@Override
 	public PaymentStatus getStatus(long id) {
-		RazorPayPaymentStatus status = api.checkStatus(id);
+		PayUPaymentStatus status = api.fetchStatus(id);
 		return to(status);
 	}
 
-	private PaymentStatus to(RazorPayPaymentStatus status) {
+	private PaymentStatus to(PayUPaymentStatus status) {
 		switch (status) {
-		case OK:
+		case COMPLETED:
 			return PaymentStatus.SUCCESS;
 		case FAILED:
 			return PaymentStatus.FAILURE;
