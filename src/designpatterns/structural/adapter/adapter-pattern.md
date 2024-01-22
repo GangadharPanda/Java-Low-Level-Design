@@ -136,7 +136,7 @@ public interface PaymentProviderAdapter {
 }
 ```
 
-2.Create Separate Adaptors for both the Payment partners 
+2.Create Separate Adapters for both the Payment partners 
 
 ```java 
 package designpatterns.structural.adapter;
@@ -240,4 +240,18 @@ public class Runner {
 
 }
 
+
+Output :
+
+ -- Calling the PayUAPI ---
+ -- Initiating the txn ---
+ -- Amount sent ---5000.0
+Please wait while we fetch the txn detail from PayUAPI 
+SUCCESS
+------------------
+ -- Calling the RazorPayAPI ---
+ -- Initiating the txn ---
+ -- Amount sent ---
+Please wait while we fetch the txn detail RazorPayAPI
+SUCCESS
 
