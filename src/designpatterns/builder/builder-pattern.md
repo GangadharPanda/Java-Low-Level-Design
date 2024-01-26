@@ -1,5 +1,8 @@
 #When do we need Builder Design Pattern
 
+   ![alt text](Creational Design Pattern.PNG "Image")
+   source : refactoring.guru
+
 ##Large Number of Parameters
 
    When a class has a large number of optional parameters, the constructor may become difficult to use, and calling it with many parameters in a specific order can be error-prone.

@@ -1,5 +1,9 @@
 #Singleton Design Pattern
 
+ ![alt text](Creational Design Pattern.PNG "Image")
+   source : refactoring.guru
+
+
 
 Singleton classes in Java are useful when you need only one class instance to control shared resources or ensure consistent behavior. They manage database connections, configuration settings, and thread pools.
 
