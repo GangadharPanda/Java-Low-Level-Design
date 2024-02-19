@@ -26,6 +26,14 @@ public class CollectionInterface {
 		 * 11.E[] toArray(new E()[0])
 		 * eg : String[] arr = col.toArray(new String()[0]);
 		 * Iterator<E> iterator()
+		 * 
+		 * 
+		 * Other new Java 8 methods 
+		 * 
+		 * parallelStream()
+		 * stream()
+		 * removeIf(Predicate<? super E> filter)
+		 * 
 		 */
 
 		// Add a single value
