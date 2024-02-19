@@ -7,6 +7,16 @@ import java.util.ListIterator;
 public class ListInterface {
 
 	public static void main(String[] args) {
+		
+		
+		/**
+		 * When to use List ?
+		 * 
+		 * 1. Insertion order preserved
+		 * 2. Duplicate values can be inserted
+		 * 3. Null can be inserted
+		 * 
+		 */
 
 		List<Integer> list = new ArrayList<>(3);
 		
