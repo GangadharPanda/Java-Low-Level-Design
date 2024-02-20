@@ -1,4 +1,4 @@
-package collections;
+package collections.list;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ArrayListClass {
 		// RandomAccess is Marker Interface
 
 		// Constructors -- 3
-		List<Integer> list = new ArrayList<>();// Size: 0, Capacity: 0
+		ArrayList<Integer> list = new ArrayList<>();// Size: 0, Capacity: 0
 
 		/*
 		 * 
@@ -48,7 +48,7 @@ public class ArrayListClass {
 
 		System.out.println(list2);// [null, null]
 
-		list2.remove(null);
+		list.remove(null);
 
 		System.out.println(list2);// [null]
 
