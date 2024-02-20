@@ -15,9 +15,9 @@ public class DequeInterface {
 	 * 
 	             Throws exception	     Returns special value    Throws exception	     Returns special value
 	-------------|--------------------|--------------------------|--------------------|----------------------
-	Insert	     |   addFirst(e)	  |  boolean offerFirst(e)   | addLast(e)	      |  boolean offerLast(e)
-	Remove	     |   removeFirst()	  |  E       pollFirst()	 | removeLast()	      |  E       pollLast()
-	Examine	     |   getFirst()	  	  |  E       peekFirst()     | getLast()	  	  |  E       peekLast()
+	Insert	     |   addFirst(e)	  |  boolean offerFirst(e)   | addLast(e)	  |  boolean offerLast(e)
+	Remove	     |   removeFirst()	  |  E       pollFirst()     | removeLast()	  |  E       pollLast()
+	Examine	     |   getFirst()	  |  E       peekFirst()     | getLast()	  |  E       peekLast()
 	*/
 	
 	
