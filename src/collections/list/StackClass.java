@@ -12,6 +12,11 @@ public class StackClass {
 	 * E pop() 
 	 * E push(E e) 
 	 * int search(Object o)  Returns the 1-based position where an object is on this stack
+	 * 
+	 * 
+	 * NOTE : The stack is based on Vector which is thread safe ,and uses growable array for the implementation
+	 * 
+	 * We should prefer using ArrayDeque (Double ended Q) class for the Stack implementations.
 	 */
 
 	public static void main(String[] args) {
