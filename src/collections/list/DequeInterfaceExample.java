@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * that supports element insertion and removal at both ends
  */
 
-public class DequeInterface {
+public class DequeInterfaceExample {
 	
 	/*Summary of Deque methods
 	 * 

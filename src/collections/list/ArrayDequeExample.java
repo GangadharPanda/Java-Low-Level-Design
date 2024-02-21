@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class ArrayDequeClass {
+public class ArrayDequeExample {
 	
 	public static void main(String[] args) {
 		Deque <Integer> stack = new ArrayDeque<>();

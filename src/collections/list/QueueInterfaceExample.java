@@ -8,7 +8,7 @@ import java.util.Queue;
  * because it implements the Queue interface
  */
 
-public class QueueInterface {
+public class QueueInterfaceExample {
 	
 	/*Summary of Queue methods
 	             Throws exception	  Returns special value

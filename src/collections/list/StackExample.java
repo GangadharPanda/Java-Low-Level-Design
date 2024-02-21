@@ -2,7 +2,7 @@ package collections.list;
 
 import java.util.Stack;
 
-public class StackClass {
+public class StackExample {
 	/*
 	 * 
 	 * Stack methods

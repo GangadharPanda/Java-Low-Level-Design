@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListInterface {
+public class ListInterfaceExample {
 
 	public static void main(String[] args) {
 		
