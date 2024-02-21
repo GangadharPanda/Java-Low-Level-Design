@@ -16,7 +16,7 @@ public class SortedSetExample {
         System.out.println("All fruits: " + fruits); // Output: [Apple, Banana, Cherry, Orange]
         
         //How did you sort this?
-        System.out.println(fruits.comparator());
+        System.out.println("Comparator "+fruits.comparator());
         
         
         //What is the First fruit in the List?
@@ -36,7 +36,7 @@ public class SortedSetExample {
         System.out.println("Fruits above or equal to Orange: " + aboveOrange); // Output: [Orange]
 
         // Get fruits between "Apple" and "Cherry" (excluding Cherry)
-        SortedSet<String> betweenFruits = fruits.subSet("Apple", "Cherry");
+        SortedSet<String> betweenFruits = fruits.subSet("Apple", "Cherry"+"\0");
         System.out.println("Fruits between Apple and Cherry (excluding Cherry): " + betweenFruits); // Output: [Apple, Banana]
 
         boolean hasMango = fruits.contains("Mango");
