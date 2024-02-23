@@ -73,13 +73,13 @@ If local variables and parameters interfere with extracting a method, use Replac
 Problem
 Your methods contain a repeating group of parameters.
 
-   ![alt text](Introduce Parameter Object - Before.png "Image")
+   ![alt text](Introduce Parameter Object - Before.png "ScreenShot")
    
    source : refactoring.guru
    
 Solution
    
-   ![alt text](Introduce Parameter Object - After.png "Image")
+   ![alt text](Introduce Parameter Object - After.png "ScreenShot")
    
    source : refactoring.guru
    
@@ -232,7 +232,7 @@ Problem
 When one class does the work of two, awkwardness results.
 
 
-   ![alt text](Extract Class - Before.png "Image")
+   ![alt text](Extract Class - Before.png "ScreenShot")
    
    source : refactoring.guru
    
@@ -240,7 +240,7 @@ Solution
 
 Instead, create a new class and place the fields and methods responsible for the relevant functionality in it.
    
-   ![alt text](Extract Class - After.png "Image")
+   ![alt text](Extract Class - After.png "ScreenShot")
    
    source : refactoring.guru
    
