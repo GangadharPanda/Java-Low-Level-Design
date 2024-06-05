@@ -1,5 +1,6 @@
 package collections.set;
 
+import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -101,15 +102,15 @@ public class TreeSetExample {
 		 * 
 		 * but never A
 		 * 
-		 * this = Student [name =D, id =4] Parameter = Student [name =B, id =2] 
+		 * this = Student [name =D, id =4] Parameter = Student [name =B, id =2]
 		 * 
-		 * The value returned from compareTo method is 2 
+		 * The value returned from compareTo method is 2
 		 * 
-		 * this = Student [name =D, id =4] Parameter = Student [name =C, id =3] 
+		 * this = Student [name =D, id =4] Parameter = Student [name =C, id =3]
 		 * 
 		 * The value returned from compareTo method is 1
 		 * 
-		 
+		 * 
 		 */
 
 		System.out.println(tree);
@@ -138,8 +139,25 @@ public class TreeSetExample {
 		 * 
 		 */
 
-		SortedSet<Integer> intTree = new TreeSet<>();
+		SortedSet<Student> intTree = new TreeSet<>((Student obj1, Student obj2) -> {
+			return obj1.compareTo(obj2);
+		});
+
+		intTree.add(new Student("A", 1));
+		intTree.add(new Student("B", 2));
+		intTree.add(new Student("C", 3));
+		intTree.add(new Student("D", 4));
+
+		System.out.println(intTree);
 
 	}
 
+}
+
+class MyComparator implements Comparator<Student> {
+
+	@Override
+	public int compare(Student o1, Student o2) {
+		return o1.compareTo(o2);
+	}
 }
