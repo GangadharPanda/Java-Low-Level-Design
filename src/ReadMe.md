@@ -175,7 +175,8 @@ List<Order> orders = Arrays.asList(
 
 
 
-orders.stream().collect(Collector.groupingBy(Orders ::getProduct), Collector.sunmmingInt(Orders :: getQuantity))
+orders.stream().collect(Collector.groupingBy(Orders ::getProduct,
+														 Collector.sunmmingInt(Orders :: getQuantity)))
 ```
 
 
@@ -281,7 +282,8 @@ List<Product> products = Arrays.asList(
   3: [Product(name="Watch", price=350)]       // Price range 300-399
 }
 
-products.stream().collect(Collector.groupingBy(product -> product.getPrice()/100), Colector.toList())
+products.stream().collect(Collector.groupingBy(product -> product.getPrice()/100, 
+                                                Colector.toList()))
 
 ```
 ###### Group the entries in this Map by the average value of the integer Lists.The resulting data structure should be a Map<Double, List<String>> where the key is the average value (Double) and the value is a List of Strings (keys from the original Map) whose corresponding lists had that average value.
