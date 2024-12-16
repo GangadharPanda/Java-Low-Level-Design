@@ -23,17 +23,17 @@ package designpatterns.singleton;
 
 public class DBConnection {
 
-	private static DBConnection dbConnection = null;
+   private static DBConnection dbConnection = null;
 
-	private DBConnection() {
-	}
+   private DBConnection() {
+   }
 
-	public static DBConnection getInstance() {
-		if (dbConnection == null) {
-            dbConnection = new DBConnection();
-        }
-		return dbConnection;
-	}
+   public static DBConnection getInstance() {
+      if (dbConnection == null) {
+         dbConnection = new DBConnection();
+      }
+      return dbConnection;
+   }
 }
 
 ```
@@ -59,14 +59,14 @@ package designpatterns.singleton;
 
 public class DBConnectionEarlyInitialization {
 
-	private static DBConnectionEarlyInitialization dbConnection = new DBConnectionEarlyInitialization();;
+   private static DBConnectionEarlyInitialization dbConnection = new DBConnectionEarlyInitialization();
 
-	private DBConnectionEarlyInitialization() {
-	}
+   private DBConnectionEarlyInitialization() {
+   }
 
-	public static DBConnectionEarlyInitialization getInstance() {
-		return dbConnection;
-	}
+   public static DBConnectionEarlyInitialization getInstance() {
+      return dbConnection;
+   }
 }
 ```
 
@@ -83,17 +83,17 @@ package designpatterns.singleton;
 
 public class DBConnectionWithSynchronization {
 
-	private static DBConnectionWithSynchronization dbConnection = null;
+   private static DBConnectionWithSynchronization dbConnection = null;
 
-	private DBConnectionWithSynchronization() {
-	}
+   private DBConnectionWithSynchronization() {
+   }
 
-	public static synchronized DBConnectionWithSynchronization getInstance() {
-		if (dbConnection == null) {
-            dbConnection = new DBConnectionWithSynchronization();
-        }
-		return dbConnection;
-	}
+   public static synchronized DBConnectionWithSynchronization getInstance() {
+      if (dbConnection == null) {
+         dbConnection = new DBConnectionWithSynchronization();
+      }
+      return dbConnection;
+   }
 } 
 ```
 Disadvantage of this approach is 
