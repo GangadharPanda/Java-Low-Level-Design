@@ -1,6 +1,6 @@
 #Singleton Design Pattern
 
- ![alt text](Creational Design Pattern.PNG "Image")
+ ![alt text](Creational Design Pattern.PNG "Image" )
    source : refactoring.guru
 
 
@@ -29,8 +29,9 @@ public class DBConnection {
 	}
 
 	public static DBConnection getInstance() {
-		if (dbConnection == null)
-			dbConnection = new DBConnection();
+		if (dbConnection == null) {
+            dbConnection = new DBConnection();
+        }
 		return dbConnection;
 	}
 }
@@ -47,6 +48,7 @@ There are two ways to handle multi-threading in singleton class
 2. Using Lock/synchronization 
 3. Double check locking 
 
+---------------------------------------------------------------------------------
 
 1. Eager initialization 
 
@@ -87,8 +89,9 @@ public class DBConnectionWithSynchronization {
 	}
 
 	public static synchronized DBConnectionWithSynchronization getInstance() {
-		if (dbConnection == null)
-			dbConnection = new DBConnectionWithSynchronization();
+		if (dbConnection == null) {
+            dbConnection = new DBConnectionWithSynchronization();
+        }
 		return dbConnection;
 	}
 } 
@@ -116,7 +119,6 @@ public class DBConnectionWithDoubleCheckLocking {
 	public static synchronized DBConnectionWithDoubleCheckLocking getInstance() {
 
 		/**
-		 * 
 		 * Suppose T1 and T2 are two threads calling the getInstance method both finds
 		 * dbConnection == null and enters the if condition.
 		 * Now, suppose T1 acquires the lock, creates the instance and release the lock also returns the instance.
@@ -126,14 +128,12 @@ public class DBConnectionWithDoubleCheckLocking {
 		 * To solve issue , if we add another check of instance == null , so that T2
 		 * checks if some other thread has already created the instance. In that case T2 simply
 		 * returns instance.
-		 * 
-		 * 
-		 * 
 		 */
 		if (dbConnection == null) {
 			lock.lock();
-			if (dbConnection == null)
-				dbConnection = new DBConnectionWithDoubleCheckLocking();
+			if (dbConnection == null) {
+                dbConnection = new DBConnectionWithDoubleCheckLocking();
+            }
 			lock.unlock();
 		}
 		return dbConnection;

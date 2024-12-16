@@ -2,7 +2,7 @@ package designpatterns.singleton;
 
 public class DBConnectionEarlyInitialization {
 
-	private static DBConnectionEarlyInitialization dbConnection = new DBConnectionEarlyInitialization();;
+	private static final DBConnectionEarlyInitialization dbConnection = new DBConnectionEarlyInitialization();
 
 	private DBConnectionEarlyInitialization() {
 	}
