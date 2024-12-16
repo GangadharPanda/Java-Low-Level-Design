@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DBConnectionWithDoubleCheckLocking {
 
-    private static DBConnectionWithDoubleCheckLocking dbConnection = null;
+    private static DBConnectionWithDoubleCheckLocking INSTANCE = null;
     private static final Lock lock = new ReentrantLock();
 
     private DBConnectionWithDoubleCheckLocking() {
@@ -23,13 +23,13 @@ public class DBConnectionWithDoubleCheckLocking {
          * checks if some other thread has created the instance In that case T2 simply
          * returns the already created instance
          */
-        if (dbConnection == null) {
+        if (INSTANCE == null) {
             lock.lock();
-            if (dbConnection == null) {
-                dbConnection = new DBConnectionWithDoubleCheckLocking();
+            if (INSTANCE == null) {
+                INSTANCE = new DBConnectionWithDoubleCheckLocking();
             }
             lock.unlock();
         }
-        return dbConnection;
+        return INSTANCE;
     }
 }

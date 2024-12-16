@@ -1,16 +1,30 @@
 package designpatterns.creational.singleton;
 
-public class DBConnectionWithSynchronization {
+import java.io.Closeable;
+import java.io.Serializable;
 
-    private static DBConnectionWithSynchronization dbConnection = null;
+public class DBConnectionWithSynchronization implements Serializable, Cloneable {
+
+    private static DBConnectionWithSynchronization INSTANCE = null;
 
     private DBConnectionWithSynchronization() {
     }
 
     public static synchronized DBConnectionWithSynchronization getInstance() {
-        if (dbConnection == null) {
-            dbConnection = new DBConnectionWithSynchronization();
+        if (INSTANCE == null) {
+            INSTANCE = new DBConnectionWithSynchronization();
         }
-        return dbConnection;
+        return INSTANCE;
+    }
+
+    // Ensures the same instance is returned during deserialization
+    // Without this method, deserialization can create a new instance of the Singleton, breaking the pattern.
+    private Object readResolve() {
+        return INSTANCE;  // Ensure that deserialization returns the same instance
+    }
+
+    @Override
+    public DBConnectionWithSynchronization clone() {
+        return INSTANCE;
     }
 }
