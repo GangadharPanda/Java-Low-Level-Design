@@ -1,4 +1,4 @@
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 public class SingletonWithoutLockRunner {
 
@@ -22,8 +22,8 @@ public class SingletonWithoutLockRunner {
 	
 	/**
 	 * 
-	 * designpatterns.singleton.DBConnection@37492b9b
-     * T2 's designpatterns.singleton.DBConnection@3f0cd36f
+	 * designpatterns.creational.singleton.DBConnection@37492b9b
+     * T2 's designpatterns.creational.singleton.DBConnection@3f0cd36f
 	 * 
 	 */
 

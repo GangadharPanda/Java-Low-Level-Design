@@ -1,4 +1,4 @@
-package designpatterns.prototype;
+package designpatterns.creational.prototype;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

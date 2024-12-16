@@ -1,4 +1,4 @@
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 public class DoubleCheckLockingRunner {
 

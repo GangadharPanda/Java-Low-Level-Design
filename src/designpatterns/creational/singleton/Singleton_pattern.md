@@ -39,21 +39,21 @@ All implementations of the Singleton have these two steps in common:
 eg:
 
 ```java
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 public class DBConnection {
 
-   private static DBConnection INSTANCE = null;
+    private static DBConnection INSTANCE = null;
 
-   private DBConnection() {
-   }
+    private DBConnection() {
+    }
 
-   public static DBConnection getInstance() {
-      if (INSTANCE == null) {
-         INSTANCE = new DBConnection();
-      }
-      return INSTANCE;
-   }
+    public static DBConnection getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DBConnection();
+        }
+        return INSTANCE;
+    }
 }
 
 ```
@@ -74,18 +74,18 @@ There are two ways to handle multi-threading in singleton class
 This is the simplest approach to create a singleton class that supports multi-threading, In this approach we create the object straight away. So when multiple threads try to call the getInstance() method it simply returns the already created instance.
 
 ```java 
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 public class DBConnectionEarlyInitialization {
 
-   private static DBConnectionEarlyInitialization INSTANCE = new DBConnectionEarlyInitialization();
+    private static DBConnectionEarlyInitialization INSTANCE = new DBConnectionEarlyInitialization();
 
-   private DBConnectionEarlyInitialization() {
-   }
+    private DBConnectionEarlyInitialization() {
+    }
 
-   public static DBConnectionEarlyInitialization getInstance() {
-      return INSTANCE;
-   }
+    public static DBConnectionEarlyInitialization getInstance() {
+        return INSTANCE;
+    }
 }
 ```
 
@@ -98,23 +98,22 @@ i.e In above getInstance() method , even if we pass a parameter. We won't be abl
 
 2. Using Lock/synchronization  -- Method level locking
 
-
 ```java
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 public class DBConnectionWithSynchronization {
 
-   private static DBConnectionWithSynchronization INSTANCE = null;
+    private static DBConnectionWithSynchronization INSTANCE = null;
 
-   private DBConnectionWithSynchronization() {
-   }
+    private DBConnectionWithSynchronization() {
+    }
 
-   public static synchronized DBConnectionWithSynchronization getInstance() {
-      if (INSTANCE == null) {
-         INSTANCE = new DBConnectionWithSynchronization();
-      }
-      return INSTANCE;
-   }
+    public static synchronized DBConnectionWithSynchronization getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DBConnectionWithSynchronization();
+        }
+        return INSTANCE;
+    }
 } 
 ```
 
@@ -126,43 +125,43 @@ But in this case all threads will have to wait to call getInstance() method
 3. Double check locking -- Critical section locking + Double Check
 
 ```java 
-package designpatterns.singleton;
+package designpatterns.creational.singleton;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DBConnectionWithDoubleCheckLocking {
 
-	private static volatile DBConnectionWithDoubleCheckLocking INSTANCE = null;
-	private static Lock lock = new ReentrantLock();
+    private static volatile DBConnectionWithDoubleCheckLocking INSTANCE = null;
+    private static Lock lock = new ReentrantLock();
 
-	private DBConnectionWithDoubleCheckLocking() {
-	}
+    private DBConnectionWithDoubleCheckLocking() {
+    }
 
-	public static DBConnectionWithDoubleCheckLocking getInstance() {
+    public static DBConnectionWithDoubleCheckLocking getInstance() {
 
-		/**
-		 * Suppose T1 and T2 are two threads calling the getInstance method both finds
-		 * dbConnection == null and enters the if condition.
-		 * Now, suppose T1 acquires the lock, creates the instance and release the lock also returns the instance.
-		 * T2 which was waiting for locks, acquires the lock and creates the instance so
-		 * both creates two different instances.
-		 * 
-		 * To solve issue , if we add another check of instance == null , so that T2
-		 * checks if some other thread has already created the instance. In that case T2 simply
-		 * returns instance.
-		 */
-		if (INSTANCE == null) { // First Check, before entering to critical section
-			lock.lock(); 
+        /**
+         * Suppose T1 and T2 are two threads calling the getInstance method both finds
+         * dbConnection == null and enters the if condition.
+         * Now, suppose T1 acquires the lock, creates the instance and release the lock also returns the instance.
+         * T2 which was waiting for locks, acquires the lock and creates the instance so
+         * both creates two different instances.
+         *
+         * To solve issue , if we add another check of instance == null , so that T2
+         * checks if some other thread has already created the instance. In that case T2 simply
+         * returns instance.
+         */
+        if (INSTANCE == null) { // First Check, before entering to critical section
+            lock.lock();
             // Above line can simply be replaced with synchronized(DBConnectionWithDoubleCheckLocking.class)
-           // If we don't want to use locking mechanism
-			if (INSTANCE == null) { // Second Check, inside the critical section
-               INSTANCE = new DBConnectionWithDoubleCheckLocking();
+            // If we don't want to use locking mechanism
+            if (INSTANCE == null) { // Second Check, inside the critical section
+                INSTANCE = new DBConnectionWithDoubleCheckLocking();
             }
-			lock.unlock();
-		}
-		return INSTANCE;
-	}
+            lock.unlock();
+        }
+        return INSTANCE;
+    }
 }
 
 ```

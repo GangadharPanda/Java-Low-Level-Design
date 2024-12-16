@@ -1,4 +1,4 @@
-package designpatterns.builder;
+package designpatterns.creational.builder;
 
 public class RunnerWithHelper {
 
