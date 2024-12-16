@@ -1,8 +1,8 @@
-####Long Methods 
+#### Long Methods 
 
 As a rule of thumb, if you feel the need to <b>comment on something inside a method</b>, you should take this code and put it in a new method. Even a single line can and should be split off into a separate method, if it requires explanations. And if the method has a descriptive name, nobody will need to look at the code to see what it does.
 
-#####Recipe 1 
+##### Recipe 1 
 
 Extract Method
 
@@ -30,7 +30,7 @@ void printDetails(double outstanding) {
 }
 ```
 
-#####Recipe 2 :
+##### Recipe 2 :
 
 Reduce Local Variables and Parameters Before Extracting a Method
 If local variables and parameters interfere with extracting a method, use 
@@ -38,7 +38,7 @@ If local variables and parameters interfere with extracting a method, use
 2. Introduce Parameter Object or 
 3. Preserve Whole Object</b>.
 
-######Replace Temp with Query
+###### Replace Temp with Query
 
 ```
 double calculateTotal() {
@@ -67,7 +67,7 @@ double basePrice() {
 }
 ```
 
-######Introduce Parameter Object
+###### Introduce Parameter Object
 If local variables and parameters interfere with extracting a method, use Replace Temp with Query, Introduce Parameter Object or Preserve Whole Object.
 
 Problem
@@ -84,7 +84,7 @@ Solution
    source : refactoring.guru
    
    
-######Preserve Whole Object
+###### Preserve Whole Object
 If local variables and parameters interfere with extracting a method, use Replace Temp with Query, Introduce Parameter Object or Preserve Whole Object.
    
    
@@ -106,7 +106,7 @@ boolean withinPlan = plan.withinRange(daysTempRange);
 ```
 
 
-#####Recipe #3
+##### Recipe #3
 Replace <b> Method with Method Object</b>
 If none of the previous recipes help, try moving the entire method to a separate object via Replace Method with Method Object.
 
@@ -153,13 +153,13 @@ class PriceCalculator {
 ```
 
 
-#####Recipe #4
+##### Recipe #4
 Conditionals and Loops
 
 Conditional operators and loops are a good clue that code can be moved to a separate method. For conditionals, use <b>Decompose Conditional</b>. If loops are in the way, try <b>Extract Method</b>.
 
 
-######Decompose Conditional
+###### Decompose Conditional
 Conditional operators and loops are a good clue that code can be moved to a separate method. For conditionals, use Decompose Conditional. If loops are in the way, try Extract Method.
 Problem
 You have a complex conditional (if-then/else or switch).
@@ -182,7 +182,7 @@ if (isSummer(date)) {
 }
 ```
 
-######Extract Method
+###### Extract Method
 You have a code fragment that can be grouped together.
 
 ```
@@ -216,16 +216,16 @@ String getProperties(User user)  {
  }
 
 ```
-######A Few Words on Performance
+###### A Few Words on Performance
 Does an increase in the number of methods hurt performance, as many people claim? In almost all cases the impact is so negligible that it's not even worth worrying about.
 
 Plus, now that you have clear and understandable code, you're more likely to find truly effective methods for restructuring code and getting real performance gains if the need ever arises.
 
-####Large Class
+#### Large Class
 
-#####Recipe #1
+##### Recipe #1
 
-######Extract Class
+###### Extract Class
 Extract Class helps if part of the behavior of the large class can be spun off into a separate component.
 
 Problem
@@ -244,14 +244,14 @@ Instead, create a new class and place the fields and methods responsible for the
    
    source : refactoring.guru
    
-#####Recipe #2
+##### Recipe #2
 
-######Extract Subclass
+###### Extract Subclass
 
 Extract Subclass helps if part of the behavior of the large class can be implemented in different ways or is used in rare cases.
 
-#####Recipe #3
+##### Recipe #3
 
-######Extract Interface
+###### Extract Interface
 
 Extract Interface helps if it's necessary to have a list of the operations and behaviors that the client can use.

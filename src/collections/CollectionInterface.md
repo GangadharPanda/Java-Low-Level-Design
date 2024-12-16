@@ -27,7 +27,7 @@ A Collection represents a group of objects known as its elements. The Collection
 		 
 
 
-#####Traversing Collections
+##### Traversing Collections
 There are three ways to traverse collections: 
 
 1. using aggregate operations 
@@ -58,14 +58,14 @@ There are many different ways to collect data with this API. For example, you mi
     .map(Object::toString)
     .collect(Collectors.joining(", "));
 
-######for-each Construct
+###### for-each Construct
 
 The for-each construct allows you to concisely traverse a collection or array using a for loop — see The for Statement. The following code uses the for-each construct to print out each element of a collection on a separate line.
 
 for (Object o : collection)
     System.out.println(o);
     
-######Iterators
+###### Iterators
 
 An Iterator is an object that enables you to traverse through a collection and to remove elements from the collection selectively, if desired. You get an Iterator for a collection by calling its iterator method. The following is the Iterator interface.
 
@@ -83,7 +83,7 @@ The hasNext method returns true if the iteration has more elements, and the next
 Note that Iterator.remove is the only safe way to modify a collection during iteration;
 the behavior is unspecified if the underlying collection is modified in any other way while the iteration is in progress.
 
-######Use Iterator instead of the for-each construct when you need to:
+###### Use Iterator instead of the for-each construct when you need to:
 
 Remove the current element. The for-each construct hides the iterator, so you cannot call remove. Therefore, the for-each construct is not usable for filtering.
 Iterate over multiple collections in parallel.
