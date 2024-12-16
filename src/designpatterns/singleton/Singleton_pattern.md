@@ -1,6 +1,6 @@
 #Singleton Design Pattern
 
- ![alt text](Creational Design Pattern.PNG "Image" )
+ ![alt text](../Creational%20Design%20Pattern.PNG "Image" )
    source : refactoring.guru
 
 
