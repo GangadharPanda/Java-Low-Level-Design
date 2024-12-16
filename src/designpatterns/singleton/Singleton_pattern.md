@@ -1,19 +1,20 @@
-#Singleton Design Pattern
+# Singleton Design Pattern
 
  ![alt text](../Creational%20Design%20Pattern.PNG "Image" )
-   source : refactoring.guru
+   Source : refactoring.guru
 
 
+Singleton classes in Java are useful when you need only one class instance to control shared resources or ensure consistent behavior. 
+They manage database connections, configuration settings, and thread pools.
 
-Singleton classes in Java are useful when you need only one class instance to control shared resources or ensure consistent behavior. They manage database connections, configuration settings, and thread pools.
-
-This is particularly helpful for managing resources such as database connections, logging systems, or configuration settings. Singleton ensures that these resources are easily accessible and consistent across the application. 
+This is particularly helpful for managing resources such as database connections, logging systems, or configuration settings. 
+Singleton ensures that these resources are easily accessible and consistent across the application. 
 
 To implement a singleton pattern, we have different approaches, but all of them have the following common concepts.
 
-1. private constructor to restrict instantiation of the class from other classes.
-2. private static variable of the same class that is the only instance of the class.
-3. public static method that returns the instance of the class, this is the global access point for the outer world to get the instance of the singleton class.
+1. Restrict instantiation of the class from other classes.
+2. public static method that returns the instance of the class, 
+this is the global access point for the outer world to get the instance of the singleton class.
 
 
 eg:
@@ -23,16 +24,16 @@ package designpatterns.singleton;
 
 public class DBConnection {
 
-   private static DBConnection dbConnection = null;
+   private static DBConnection INSTANCE = null;
 
    private DBConnection() {
    }
 
    public static DBConnection getInstance() {
-      if (dbConnection == null) {
-         dbConnection = new DBConnection();
+      if (INSTANCE == null) {
+         INSTANCE = new DBConnection();
       }
-      return dbConnection;
+      return INSTANCE;
    }
 }
 
@@ -41,12 +42,11 @@ public class DBConnection {
 The above implementation is not THREAD SAFE.
 
 ---------------------------------------------------------------------------------
-
 There are two ways to handle multi-threading in singleton class
 
 1. Eager initialization
-2. Using Lock/synchronization 
-3. Double check locking 
+2. Using Lock/synchronization  -- Method level locking 
+3. Double check locking -- Critical section locking
 
 ---------------------------------------------------------------------------------
 
@@ -59,23 +59,25 @@ package designpatterns.singleton;
 
 public class DBConnectionEarlyInitialization {
 
-   private static DBConnectionEarlyInitialization dbConnection = new DBConnectionEarlyInitialization();
+   private static DBConnectionEarlyInitialization INSTANCE = new DBConnectionEarlyInitialization();
 
    private DBConnectionEarlyInitialization() {
    }
 
    public static DBConnectionEarlyInitialization getInstance() {
-      return dbConnection;
+      return INSTANCE;
    }
 }
 ```
 
 Disadvantage of this approach is 
 
-1. Even if no one is calling getInstance() method , it is creating one.
-2. Suppose I want to getInstance(Environment env) , i.e based on the environment , I can not do that 
+1. The object is created at the time of class loading , so the object is created irrespective of it's needed or not.
+2. As the instance is created at the time of class loading , it can not have the dynamic parameters
 
 i.e In above getInstance() method , even if we pass a parameter. We won't be able to use that parameter because we have already created the object.
+
+2. Using Lock/synchronization  -- Method level locking
 
 
 ```java
@@ -83,24 +85,26 @@ package designpatterns.singleton;
 
 public class DBConnectionWithSynchronization {
 
-   private static DBConnectionWithSynchronization dbConnection = null;
+   private static DBConnectionWithSynchronization INSTANCE = null;
 
    private DBConnectionWithSynchronization() {
    }
 
    public static synchronized DBConnectionWithSynchronization getInstance() {
-      if (dbConnection == null) {
-         dbConnection = new DBConnectionWithSynchronization();
+      if (INSTANCE == null) {
+         INSTANCE = new DBConnectionWithSynchronization();
       }
-      return dbConnection;
+      return INSTANCE;
    }
 } 
 ```
+
 Disadvantage of this approach is 
+Once we have created the instance , all other threads should not wait . 
+But in this case all threads will have to wait to call getInstance() method 
+, even if we have created the instance ,which is not performant.
 
-1. Once we have created the instance , all other threads should not wait . But in this case all threads will have to wait to call getInstance() method , even if we have created the instance ,which is not performant.
-
-
+3. Double check locking -- Critical section locking + Double Check
 
 ```java 
 package designpatterns.singleton;
@@ -110,13 +114,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DBConnectionWithDoubleCheckLocking {
 
-	private static DBConnectionWithDoubleCheckLocking dbConnection = null;
+	private static volatile DBConnectionWithDoubleCheckLocking INSTANCE = null;
 	private static Lock lock = new ReentrantLock();
 
 	private DBConnectionWithDoubleCheckLocking() {
 	}
 
-	public static synchronized DBConnectionWithDoubleCheckLocking getInstance() {
+	public static DBConnectionWithDoubleCheckLocking getInstance() {
 
 		/**
 		 * Suppose T1 and T2 are two threads calling the getInstance method both finds
@@ -129,22 +133,22 @@ public class DBConnectionWithDoubleCheckLocking {
 		 * checks if some other thread has already created the instance. In that case T2 simply
 		 * returns instance.
 		 */
-		if (dbConnection == null) {
-			lock.lock();
-			if (dbConnection == null) {
-                dbConnection = new DBConnectionWithDoubleCheckLocking();
+		if (INSTANCE == null) { // First Check, before entering to critical section
+			lock.lock(); 
+            // Above line can simply be replaced with synchronized(DBConnectionWithDoubleCheckLocking.class)
+           // If we don't want to use locking mechanism
+			if (INSTANCE == null) { // Second Check, inside the critical section
+               INSTANCE = new DBConnectionWithDoubleCheckLocking();
             }
 			lock.unlock();
 		}
-		return dbConnection;
+		return INSTANCE;
 	}
 }
 
 ```
 
-
-Double check singleton pattern
-
+## NOTE 
 However this implementation is buggy if we forget to declare the variable instance as volatile .
 Without volatile we don't have happens before link between synchronize write and read. 
 
