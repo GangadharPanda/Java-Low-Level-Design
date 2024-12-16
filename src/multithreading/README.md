@@ -123,7 +123,7 @@ public class Runner {
 
 # How to fix this?
 There are 3 ways to fix this issue 
-1. synchoronized keyword
+1. synchronized keyword
 2. Mutex lock
 3. Binary Semaphores
 
@@ -134,7 +134,7 @@ i.e if Adder thread is trying to call increment method , no other thread can exe
 
 find the below code , 
 
-```
+```java
 package multithreading;
 
 public class SharedResorceWithSynchronized extends SharedResorce{
@@ -152,7 +152,7 @@ public class SharedResorceWithSynchronized extends SharedResorce{
 	}
 }
 ```
-```
+```java
 package multithreading;
 
 public class Runner {
@@ -178,7 +178,7 @@ public class Runner {
 
 ## Mutex Lock
 
-```
+```java
 package multithreading;
 
 import java.util.concurrent.locks.Lock;
@@ -209,7 +209,7 @@ public class SharedResorceWithReentrantLock extends SharedResorce {
 
 ## Binary Semaphore
 
-```
+```java
 package multithreading;
 
 import java.util.concurrent.Semaphore;
