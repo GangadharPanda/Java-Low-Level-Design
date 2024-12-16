@@ -1,8 +1,27 @@
 # Singleton Design Pattern
+Singleton is a creational design pattern that lets you ensure that a class has only one instance, while providing a global access point to this instance.
 
- ![alt text](../Creational%20Design%20Pattern.PNG "Image" )
-   Source : refactoring.guru
+![alt text](Singleton.png "Image" )
+Source : refactoring.guru
 
+### Ensure that a class has just a single instance. Why would anyone want to control how many instances a class has? 
+The most common reason for this is to control access to some shared resource—for example, a database or a file.
+
+Here’s how it works: imagine that you created an object, but after a while decided to create a new one. 
+Instead of receiving a fresh object, you’ll get the one you already created.
+
+Note that this behavior is impossible to implement with a regular constructor since a constructor call must always return a new object by design.
+
+
+### Provide a global access point to that instance. 
+Remember those global variables that you (all right, me) used to store some essential objects?
+While they’re very handy, they’re also very unsafe since any code can potentially overwrite the contents of those variables and crash the app.
+
+Just like a global variable, the Singleton pattern lets you access some object from anywhere in the program. 
+However, it also protects that instance from being overwritten by other code.
+
+There’s another side to this problem: you don’t want the code that solves problem
+#1 to be scattered all over your program. It’s much better to have it within one class, especially if the rest of your code already depends on it.
 
 Singleton classes in Java are useful when you need only one class instance to control shared resources or ensure consistent behavior. 
 They manage database connections, configuration settings, and thread pools.
@@ -10,11 +29,11 @@ They manage database connections, configuration settings, and thread pools.
 This is particularly helpful for managing resources such as database connections, logging systems, or configuration settings. 
 Singleton ensures that these resources are easily accessible and consistent across the application. 
 
-To implement a singleton pattern, we have different approaches, but all of them have the following common concepts.
+## Solution
+All implementations of the Singleton have these two steps in common:
 
-1. Restrict instantiation of the class from other classes.
-2. public static method that returns the instance of the class, 
-this is the global access point for the outer world to get the instance of the singleton class.
+Make the default constructor private, to prevent other objects from using the new operator with the Singleton class.
+Create a static creation method that acts as a constructor. Under the hood, this method calls the private constructor to create an object and saves it in a static field. All following calls to this method return the cached object.
 
 
 eg:
@@ -154,6 +173,13 @@ Without volatile we don't have happens before link between synchronize write and
 
 Volatile ensure that multiple threads read the correct instance value.
 Also make object immutable.
+
+----------------------------------------------------
+
+## Proc & Cons
+
+![alt text](ProsCons.png "Image" )
+Source : refactoring.guru
 
 
 
