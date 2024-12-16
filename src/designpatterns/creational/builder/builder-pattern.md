@@ -1,7 +1,7 @@
-#When do we need Builder Design Pattern
+# When do we need Builder Design Pattern
 
 
-##Large Number of Parameters
+## Large Number of Parameters
 
    When a class has a large number of optional parameters, the constructor may become difficult to use, and calling it with many parameters in a specific order can be error-prone.
    
@@ -32,7 +32,7 @@ This will lead to compile time error.
 
 ---------------------------------------------------------------------------------------------------------
        
-##Validation of the parameters before creating an Object:
+## Validation of the parameters before creating an Object:
 
    When we want to validate the parameters before creating an object.
    
@@ -46,7 +46,7 @@ This will lead to compile time error.
    The object is already created , so we will need to check this inside the constructor itself.
 
    ```java
-   package designpatterns.creational.builder;
+package designpatterns.creational.builder;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -77,7 +77,7 @@ public class Student {
    i.e
 
    ```java 
-     package designpatterns.creational.builder;
+package designpatterns.creational.builder;
 
 import java.util.Map;
 
@@ -111,7 +111,7 @@ public class Student {
   The Runner code is below
 
   ```java
-       package designpatterns.creational.builder;
+package designpatterns.creational.builder;
 
 import java.util.HashMap;
 import java.util.Map;
