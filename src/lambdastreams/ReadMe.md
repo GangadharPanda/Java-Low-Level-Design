@@ -1,4 +1,4 @@
-######Given a stream of objects, write a function using map that extracts a specific property from each object and returns a new stream containing only those extracted values.
+###### Given a stream of objects, write a function using map that extracts a specific property from each object and returns a new stream containing only those extracted values.
 Example:
 
 ```Java
@@ -11,7 +11,7 @@ Stream<String> namesStream = people.stream()
   .collect(Collectors.toList());
 ```
 
-######Given a stream of integers, write a function using a map that squares each element and returns a new stream containing the squared values.
+###### Given a stream of integers, write a function using a map that squares each element and returns a new stream containing the squared values.
 
 ```Example:
 
@@ -33,7 +33,7 @@ list.stream().map(str-> str.toUpperCase()).collect(Collector.toList())
 ----------------------------------
 
 
-######Given a stream of objects, write a function using map that extracts a specific property from each object and returns a new stream containing only those extracted values.
+###### Given a stream of objects, write a function using map that extracts a specific property from each object and returns a new stream containing only those extracted values.
 
 ```
 Example:
@@ -55,7 +55,7 @@ Stream<String> namesStream = people.stream()
 
 ```
 
-######Given a stream of integers, write a function using map and filter that removes all even numbers and squares the remaining odd numbers in the new stream.
+###### Given a stream of integers, write a function using map and filter that removes all even numbers and squares the remaining odd numbers in the new stream.
 
 ```
 Example:
@@ -68,7 +68,7 @@ people.stream()
   .collect(Collectors.toList());
 ```
 
-######Given a stream of strings, write a stream operation that groups the strings by their length.The resulting data structure should be a Map where the key is the string length (integer) and the value is a List containing all strings of that length.
+###### Given a stream of strings, write a stream operation that groups the strings by their length.The resulting data structure should be a Map where the key is the string length (integer) and the value is a List containing all strings of that length.
 
 ```
 
@@ -86,7 +86,7 @@ Map<Integer, List<String>> groupedByLength = list.stream()
   .collect(Collectors.groupingBy(String::length));
 
 ```
-######Given a stream of strings, group them by their first character (case-insensitive)
+###### Given a stream of strings, group them by their first character (case-insensitive)
 
 ```
 Input: "apple", "banana", "cherry", "tomato", "kiwi"
@@ -103,7 +103,7 @@ input.stream().collect(Collector.groupingBy(str -> str.substring(0,1)))
 ```
 
 
-######Given a stream of strings, group them by their length. The resulting data structure should be a Map where the key is the string length (integer) and the value is a List containing all strings of that length. 
+###### Given a stream of strings, group them by their length. The resulting data structure should be a Map where the key is the string length (integer) and the value is a List containing all strings of that length. 
 
 list.stream().collect(Collector.groupinBy(String::length))
 
@@ -118,7 +118,7 @@ Map<String, List<Product>> groupedByCategory = products.stream()
 
 ```
 
-######Group the Person objects by their age. The resulting data structure should be a Map where the key is the age (Integer) and the value is a List containing all Person objects with that specific age.
+###### Group the Person objects by their age. The resulting data structure should be a Map where the key is the age (Integer) and the value is a List containing all Person objects with that specific age.
 
 ```
 people .stream().collector(Collector.groupingBy(Person::getAge))
@@ -126,7 +126,7 @@ people .stream().collector(Collector.groupingBy(Person::getAge))
 
 
 
-######Group the strings by their length, but only include strings with a length exceeding a certain threshold.
+###### Group the strings by their length, but only include strings with a length exceeding a certain threshold.
 
 
 ```
@@ -155,7 +155,7 @@ Map<Integer, List<String>> groupedByLength = words.stream()
 ```
 
 
-######Group the orders by the product and calculate the total quantity for each product. The resulting data structure should be a Map where the key is the Product object and the value is the total quantity ordered for that product.
+###### Group the orders by the product and calculate the total quantity for each product. The resulting data structure should be a Map where the key is the Product object and the value is the total quantity ordered for that product.
 
 ```
 // Assuming a list of Order objects with product and quantity
@@ -180,43 +180,43 @@ orders.stream().collect(Collector.groupingBy(Orders ::getProduct,
 ```
 
 
-#####Collector Class Methods
+##### Collector Class Methods
 
-######The Collectors class provides a rich set of methods for performing various reduction operations on streams. These operations involve transforming and accumulating elements into a collection or a single summary value. Here are some key methods:
+###### The Collectors class provides a rich set of methods for performing various reduction operations on streams. These operations involve transforming and accumulating elements into a collection or a single summary value. Here are some key methods:
 
 
-######toList(): 
+###### toList(): 
 Collects elements into a List.
 
-######toSet(): 
+###### toSet(): 
 Collects elements into a Set.
 
-######toMap(Function keyMapper, Function valueMapper): 
+###### toMap(Function keyMapper, Function valueMapper): 
 Collects elements into a Map by applying key and value mappers to each element.
 
-######counting(): 
+###### counting(): 
 Counts the number of elements in the stream.
 
-######averagingInt(ToIntFunction mapper): 
+###### averagingInt(ToIntFunction mapper): 
 Calculates the average of integer-valued functions applied to the elements. Similar methods exist for averagingDouble and averagingLong.
 
-######minBy(Comparator comparator): 
+###### minBy(Comparator comparator): 
 Returns the minimum element according to a provided comparator.
 
-######maxBy(Comparator comparator): 
+###### maxBy(Comparator comparator): 
 Returns the maximum element according to a provided comparator.
 
-######groupingBy(Function classifier): 
+###### groupingBy(Function classifier): 
 Groups elements based on a classification function. Can be used with downstream collectors for further processing within groups.
 
-######partitioningBy(Predicate predicate): 
+###### partitioningBy(Predicate predicate): 
 Partitions elements into two groups based on a predicate (true or false).
 
 ---------------
 
 
 
-######Group the integers by their absolute value. The resulting data structure should be a Map where the key is the absolute value (Integer) and the value is a List containing all integers with that absolute value.
+###### Group the integers by their absolute value. The resulting data structure should be a Map where the key is the absolute value (Integer) and the value is a List containing all integers with that absolute value.
 
 ```
 
@@ -234,7 +234,7 @@ numbers.stream().collect(Collector.groupingBy(Math::abs))
 
 ```
 
-######Group the customers by country and then by city within each country. The resulting data structure should be a nested Map where the outer key is the country (String) and the inner key is the city (String). The value at each level is a List containing the corresponding Customer objects.
+###### Group the customers by country and then by city within each country. The resulting data structure should be a nested Map where the outer key is the country (String) and the inner key is the city (String). The value at each level is a List containing the corresponding Customer objects.
 
 ```
 
@@ -315,7 +315,7 @@ Map<Double, List<String>> groupedByAverage = data.entrySet().stream()
   }));
 
 ```
-#####Map Manipulation Challenge (flatMap + filtering)
+##### Map Manipulation Challenge (flatMap + filtering)
 Scenario: You have a Map<String, List<Product>> where the key is a category (String) and the value is a List of Product objects.
 
 Task: Create a new Map where the key remains the same (category) but the value is a List containing only the names (Strings) 
@@ -371,7 +371,7 @@ System.out.println(nameToPersonMap);
 
 ```
 
-#####What is flatMap?
+##### What is flatMap?
 
 flatMap is an intermediate operation in Java streams that allows you to transform each element 
 
