@@ -180,6 +180,67 @@ Also make object immutable.
 ![alt text](ProsCons.png "Image" )
 Source : refactoring.guru
 
+----
+
+
+# How to break a Singleton Pattern ?
+
+1.  Reflection
+```java
+public static void main(String[] args) throws NoSuchMethodException {
+    DBConnectionWithSynchronization singleton1 = DBConnectionWithSynchronization.getInstance();
+
+    Constructor<DBConnectionWithSynchronization> constructor = DBConnectionWithSynchronization.class.getDeclaredConstructor();
+
+    // Making the Constructor public , breaking the pattern
+    constructor.setAccessible(true);
+    
+    DBConnectionWithSynchronization singleton2 = null;
+    try {
+        singleton2 = constructor.newInstance();
+    } catch (InstantiationException e) {
+        throw new RuntimeException(e);
+    } catch (IllegalAccessException e) {
+        throw new RuntimeException(e);
+    } catch (InvocationTargetException e) {
+        throw new RuntimeException(e);
+    }
+
+    System.out.println(singleton2 == singleton1); // Different instance
+}
+```
+2. Serialization
+```java
+public static void main(String[] args) throws Exception {
+    DBConnectionWithSynchronization singleton1 = DBConnectionWithSynchronization.getInstance();
+
+    // Serialization
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("singleton.ser"));
+    out.writeObject(singleton1);
+    out.close();
+
+    // Deserialization
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream("singleton.ser"));
+    DBConnectionWithSynchronization singleton2 = (DBConnectionWithSynchronization) in.readObject();
+    in.close();
+
+    System.out.println(singleton1 == singleton2); 
+    // false, if DBConnectionWithSynchronization class does not have private Object readResolve(){ return INSTANCE}
+}
+```
+3. Cloning
+```java
+public static void main(String[] args) {
+    DBConnectionWithSynchronization singleton1 = DBConnectionWithSynchronization.getInstance();
+
+    DBConnectionWithSynchronization singleton2 = (DBConnectionWithSynchronization) singleton1.clone();
+
+    System.out.println(singleton1 == singleton2);
+    // false, If the clone method inside DBConnectionWithSynchronization does not return the same INSTANCE
+    // public DBConnectionWithSynchronization clone() {return INSTANCE;}
+}
+```
+
 
 
 

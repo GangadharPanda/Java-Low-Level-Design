@@ -44,8 +44,8 @@ It take care of effective communication and the assignment of responsibilities b
 ![alt text](Behavioural%20Design%20Pattern.png "Image" )
 Source : refactoring.guru
 ----------------------------------------------------------
-1. Singleton Design Pattern -> [Singleton_pattern.md](creational%2Fsingleton%2FSingleton_pattern.md)
-2. Builder Design Pattern -> [builder-pattern.md](creational%2Fbuilder%2Fbuilder-pattern.md)
-3. Prototype Design Pattern -> [prototype-pattern.md](creational%2Fprototype%2Fprototype-pattern.md)
+1. Singleton Design Pattern -> [Singleton.md](creational%2Fsingleton%2FSingleton_pattern.md)
+2. Builder Design Pattern -> [Builder.md](creational%2Fbuilder%2Fbuilder-pattern.md)
+3. Prototype Design Pattern -> [Prototype.md](creational%2Fprototype%2Fprototype-pattern.md)
 4. Factory Pattern
 
