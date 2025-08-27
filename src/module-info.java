@@ -6,5 +6,5 @@
  *
  */
 module JavaConcurrency {
-	requires lombok;
+    requires static lombok;
 }
