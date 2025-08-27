@@ -12,7 +12,6 @@ public class BasicOperations {
     }
 
     //1. Given an array , reverse entire array
-
     static void reverseArray(int[] arr) {
         int n = arr.length;
         int start = 0;
