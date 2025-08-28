@@ -4,7 +4,10 @@ public class BasicOperations {
 
     public static void main(String[] args) {
         int[] arr = new int[]{1, 2, 3, 4, 5};
-        reverseArray(arr);
+        int n = arr.length;
+        int start = 0;
+        int end = n - 1;
+        reverseArray(arr, start, end);
 
         for (int val : arr) {
             System.out.println(val);
@@ -12,10 +15,9 @@ public class BasicOperations {
     }
 
     //1. Given an array , reverse entire array
-    static void reverseArray(int[] arr) {
+    public static void reverseArray(int[] arr, int start, int end) {
         int n = arr.length;
-        int start = 0;
-        int end = n - 1;
+
 
         while (start < end) {
             swap(arr, start, end);
