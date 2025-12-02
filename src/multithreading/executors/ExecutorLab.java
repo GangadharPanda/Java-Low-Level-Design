@@ -20,10 +20,13 @@ public class ExecutorLab {
         //demonstrateDiscardPolicy();
 
         // SCENARIO 4: The Silent Killer (DiscardPolicy -> Silent Data Loss) + Hanging Future
-        demonstrateDiscardPolicyWithHangingFuture();
+        //demonstrateDiscardPolicyWithHangingFuture();
 
         // SCENARIO 5: The Ruthless (DiscardOldestPolicy)
         // demonstrateDiscardOldestPolicy();
+
+        // SCENARIO 6: The Thread Explosion (CachedThreadPool -> Native OOM)
+        simulateCachedThreadPoolCrash();
     }
 
     // ======================================================================
@@ -307,4 +310,44 @@ public class ExecutorLab {
         }
     }
 
+    // ======================================================================
+    // SCENARIO 6: The Thread Explosion (newCachedThreadPool)
+    // ======================================================================
+    public static void simulateCachedThreadPoolCrash() {
+        System.out.println("=== Starting Scenario 6: CachedThreadPool (Thread Explosion) ===");
+
+        // 1. Core = 0, Max = Integer.MAX_VALUE, Queue = SynchronousQueue
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        int i = 0;
+        while (true) {
+            final int taskId = i++;
+
+            // 2. Submit tasks that hang.
+            // Since SynchronousQueue has 0 capacity, and no thread is free (they are sleeping),
+            // the pool is FORCED to create a new thread for every single task.
+            executor.submit(() -> {
+                try {
+                    Thread.sleep(100000); // Sleep "forever" to hold the thread
+                } catch (InterruptedException e) { }
+            });
+
+            // 3. Monitor Thread Count
+            if (i % 100 == 0) {
+                // Approximate count of threads
+                int poolSize = ((ThreadPoolExecutor) executor).getPoolSize();
+                System.out.println("Tasks Submitted: " + i + " | Active Threads: " + poolSize);
+            }
+        }
+
+        // WHAT TO OBSERVE:
+        // The "Active Threads" will skyrocket: 100, 500, 2000, 5000...
+        // Your computer fan will spin up.
+        // Eventually: "java.lang.OutOfMemoryError: unable to create new native thread"
+
+        // After 60 seconds , if a thread is idle, it removes that thread
+        // If Storm comes and application has to create 1K threads, that's fine
+        // But if request keeps growing, that' the issue with the newCachedThreadPool
+        //Verdict: If you are building a Server, CachedThreadPool is the enemy. If you are building a Client or a Recursive Algorithm, CachedThreadPool is a friend.
+    }
 }
