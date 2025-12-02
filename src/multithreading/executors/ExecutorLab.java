@@ -8,7 +8,7 @@ public class ExecutorLab {
         // --- UNCOMMENT ONE METHOD AT A TIME TO TEST ---
 
         // SCENARIO 1: The Trap (Unbounded Queue)
-         //simulateCrash();
+        //simulateCrash();
 
         // SCENARIO 2: The Default Fix (AbortPolicy)
         //demonstrateAbortPolicy();
@@ -17,7 +17,10 @@ public class ExecutorLab {
         //demonstrateCallerRunsPolicy();
 
         // SCENARIO 4: The Silent Killer (DiscardPolicy -> Silent Data Loss)
-        demonstrateDiscardPolicy();
+        //demonstrateDiscardPolicy();
+
+        // SCENARIO 4: The Silent Killer (DiscardPolicy -> Silent Data Loss) + Hanging Future
+        demonstrateDiscardPolicyWithHangingFuture();
 
         // SCENARIO 5: The Ruthless (DiscardOldestPolicy)
         // demonstrateDiscardOldestPolicy();
@@ -95,7 +98,8 @@ public class ExecutorLab {
                         Thread.sleep(1000); // Simulate work
                         if (payload.length > 0)
                             System.out.println("   --> Executed Task " + taskId);
-                    } catch (InterruptedException e) { }
+                    } catch (InterruptedException e) {
+                    }
                 });
             } catch (RejectedExecutionException e) {
                 // This block handles the "Door Locked" scenario
@@ -143,11 +147,15 @@ public class ExecutorLab {
                     String runThread = Thread.currentThread().getName();
                     if (payload.length > 0)
                         System.out.println("   --> FINISHED Task " + taskId + " by " + runThread);
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {
+                }
             });
 
             // Small delay to make console readable, but fast enough to overflow queue
-            try { Thread.sleep(50); } catch (InterruptedException e) {}
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+            }
         }
 
         // WHAT TO OBSERVE:
@@ -179,11 +187,15 @@ public class ExecutorLab {
                 try {
                     Thread.sleep(200); // Simulate work
                     System.out.println("   --> COMPLETED Task " + taskId);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             });
 
             // Sleep slightly faster than consumer to ensure queue fills but flows
-            try { Thread.sleep(50); } catch (InterruptedException e) {}
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+            }
         }
 
         executor.shutdown();
@@ -201,6 +213,7 @@ public class ExecutorLab {
         // Result: You will see gaps in the "COMPLETED" numbers (e.g., 0, 7, 8, 9).
         // The middle tasks were sacrificed.
     }
+
     // ======================================================================
     // SCENARIO 5: The Silent Killer (DiscardPolicy)
     // ======================================================================
@@ -223,11 +236,15 @@ public class ExecutorLab {
                 try {
                     Thread.sleep(1000); // Very slow consumer
                     System.out.println("   --> Executed Task " + taskId);
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {
+                }
             });
 
             // Fast producer
-            try { Thread.sleep(50); } catch (InterruptedException e) {}
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+            }
         }
 
         executor.shutdown();
@@ -242,4 +259,52 @@ public class ExecutorLab {
         // BUT you will only see "Executed Task 1", "Executed Task 2", "Executed Task 3".
         // The other 7 tasks vanish. No Exception. No Error Log. Just gone.
     }
+
+
+    // ======================================================================
+    // SCENARIO 6: The Silent Killer (DiscardPolicy) with Hanging Future
+    // ======================================================================
+    public static void demonstrateDiscardPolicyWithHangingFuture() {
+        // 1. Create a pool that is already full
+        ExecutorService executor = new ThreadPoolExecutor(
+                1, 1, 0L, TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<>(1),
+                new ThreadPoolExecutor.DiscardPolicy() // <--- The Trap
+        );
+
+        // Fill the pool so the next task gets rejected
+        executor.submit(() -> {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }); // Core thread busy
+
+        executor.submit(() -> {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }); // Queue full
+
+        // 2. Submit the victim task
+        // The pool is full, so DiscardPolicy throws this task away.
+        // BUT, it still gives you a 'future' object.
+        Future<String> future = executor.submit(() -> "I will never run");
+
+        System.out.println("Future obtained. Waiting for result...");
+
+        try {
+            // 3. THE TRAP
+            // This line will hang FOREVER.
+            // The task was discarded, but the future doesn't know that.
+            String result = future.get();
+            System.out.println("Result: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
