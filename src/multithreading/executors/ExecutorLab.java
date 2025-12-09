@@ -87,6 +87,12 @@ public class ExecutorLab {
                 new ThreadPoolExecutor.AbortPolicy() // <--- The Default Policy
         );
 
+        // Very IMPORTANT :
+
+        // If Active threads = coreThreads, and
+        // If queue is FULL
+        // Then Only it will create another thread and create up to :maxThreads
+
         // 2. Submit 10 tasks.
         // Capacity = 1 (Running) + 3 (Queue) = 4.
         // Tasks 5 through 10 will be rejected.
@@ -349,5 +355,27 @@ public class ExecutorLab {
         // If Storm comes and application has to create 1K threads, that's fine
         // But if request keeps growing, that' the issue with the newCachedThreadPool
         //Verdict: If you are building a Server, CachedThreadPool is the enemy. If you are building a Client or a Recursive Algorithm, CachedThreadPool is a friend.
+    }
+
+
+    void shutdownAndAwaitTermination(ExecutorService pool) {
+        // Step 1: Disable new tasks from being submitted
+        pool.shutdown();
+        try {
+            // Step 2: Wait a while for existing tasks to terminate
+            if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
+
+                // Step 3: Cancel currently executing tasks
+                pool.shutdownNow();
+
+                // Step 4: Wait a while for tasks to respond to being cancelled
+                if (!pool.awaitTermination(60, TimeUnit.SECONDS))
+                    System.err.println("Pool did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            pool.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
 }
