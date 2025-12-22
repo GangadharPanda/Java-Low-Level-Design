@@ -23,10 +23,10 @@ public class ExecutorLab {
         //demonstrateDiscardPolicyWithHangingFuture();
 
         // SCENARIO 5: The Ruthless (DiscardOldestPolicy)
-        // demonstrateDiscardOldestPolicy();
+        demonstrateDiscardOldestPolicy();
 
         // SCENARIO 6: The Thread Explosion (CachedThreadPool -> Native OOM)
-        simulateCachedThreadPoolCrash();
+        //simulateCachedThreadPoolCrash();
     }
 
     // ======================================================================
@@ -98,15 +98,12 @@ public class ExecutorLab {
         // Tasks 5 through 10 will be rejected.
         for (int i = 1; i <= 10; i++) {
             final int taskId = i;
-            final byte[] payload = new byte[1024]; // Simulate data
-
             try {
                 System.out.println("Submitting Task " + taskId);
                 executor.submit(() -> {
                     try {
                         Thread.sleep(1000); // Simulate work
-                        if (payload.length > 0)
-                            System.out.println("   --> Executed Task " + taskId);
+                        System.out.println("   --> Executed Task " + taskId);
                     } catch (InterruptedException e) {
                     }
                 });
@@ -143,7 +140,6 @@ public class ExecutorLab {
         // Infinite loop to demonstrate sustained load handling
         while (true) {
             final int taskId = i++;
-            final byte[] payload = new byte[1024];
             String threadName = Thread.currentThread().getName();
 
             // Log before submitting to show the "Pause"
@@ -154,8 +150,7 @@ public class ExecutorLab {
                     Thread.sleep(500); // Simulate heavy processing
                     // Check thread name to see WHO is running it (Pool vs Main)
                     String runThread = Thread.currentThread().getName();
-                    if (payload.length > 0)
-                        System.out.println("   --> FINISHED Task " + taskId + " by " + runThread);
+                    System.out.println("   --> FINISHED Task " + taskId + " by " + runThread);
                 } catch (InterruptedException e) {
                 }
             });
@@ -166,9 +161,9 @@ public class ExecutorLab {
             } catch (InterruptedException e) {
             }
         }
-
         // WHAT TO OBSERVE:
         // 1. Initially, "Producer (main)" submits fast.
+
         // 2. Queue fills.
         // 3. Suddenly, you see "FINISHED Task X by main".
         // 4. While "main" is executing, it STOPS submitting new tasks.
@@ -335,7 +330,8 @@ public class ExecutorLab {
             executor.submit(() -> {
                 try {
                     Thread.sleep(100000); // Sleep "forever" to hold the thread
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {
+                }
             });
 
             // 3. Monitor Thread Count
