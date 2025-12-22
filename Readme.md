@@ -11,3 +11,4 @@
     - [FizzBuzz_Multithreading.md](src%2Fmultithreading%2FFizzBuzz_Multithreading.md)
     - [Print_in_Order.md](src%2Fmultithreading%2FPrint_in_Order.md)
     - [README.md](src%2Fmultithreading%2FREADME.md)
+7. Memory Management  -> [MemoryManagement.md](MemoryManagement.md)
