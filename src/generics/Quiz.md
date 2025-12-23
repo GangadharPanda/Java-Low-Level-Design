@@ -444,6 +444,462 @@ Where exactly does the "Permission Slip" <T> go in a generic static method signa
 </details>
 
 ---
+
+21. Nested Generics
+
+How do you correctly declare a Map where keys are String and values are a List of Integer?
+
+    A) Map<String, List<Integer>> map;
+    
+    B) Map<String, List> map;
+    
+    C) Map<String, <Integer>List> map;
+    
+    D) Map<String, List<int>> map;
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Generics can be nested indefinitely. However, primitive types like int (Option D) are never allowed; you must use the wrapper Integer.
+
+</details>
+
+---
+
+22. Multiple Type Parameters
+
+What is the standard convention for a class that takes a Key and a Value?
+
+    A) class Entry<K, V>
+    
+    B) class Entry<Key, Value>
+    
+    /C) class Entry<T1, T2>
+    
+    D) class Entry<T, U>
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: While any name is legal, Java conventions suggest K for Key, V for Value, T for Type, and E for Element.
+
+</details>
+
+---
+
+23. Constructor Generics
+
+Can a non-generic class have a generic constructor?
+
+    A) Yes, the type parameter is placed before the class name in the constructor declaration.
+    
+    B) No, only generic classes can have generic constructors.
+    
+    C) Yes, the type parameter is placed before the return type (which is omitted for constructors).
+    
+    D) Yes, but the class must be declared abstract.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: C
+    
+    Rationale: A constructor can declare its own type parameters independent of the class. Syntax: public <T> MyClass(T t) { ... }.
+
+</details>
+
+---
+
+24. Explicit Type Arguments
+
+How do you explicitly provide a type argument to a static generic method Utils.process(val) if inference fails?
+
+    A) Utils.<String>process(val)
+    
+    B) Utils.process<String>(val)
+    
+    C) Utils(String).process(val)
+    
+    D) Utils.process(val)<String>
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Explicit type arguments follow the dot but precede the method name.
+
+</details>
+
+---
+
+25. Recursive Type Bounds
+
+Which syntax describes a type T that can be compared to itself?
+
+    A) <T extends Comparable<T>>
+    
+    B) <T implements Comparable<T>>
+    
+    C) <T extends Comparable<? super T>>
+    
+    D) Both A and C are common, but C is more flexible.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: D
+    
+    Rationale: T extends Comparable<T> is the basic recursive bound. T extends Comparable<? super T> (the PECS version) is the professional standard as it allows comparison to parents (e.g., Integer comparing via Number).
+
+</details>
+
+---
+
+26. Varargs and Generics
+
+What is the primary risk of using public <T> void doSomething(T... args)?
+
+    A) Possible Heap Pollution.
+    
+    B) It's illegal to use varargs with generics.
+    
+    C) It prevents the use of the diamond operator.
+    
+    D) The JVM cannot calculate the array length.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Varargs are implemented as arrays. Since generic arrays are unsafe, mixing them can lead to Heap Pollution. Java requires @SafeVarargs to suppress warnings if the method is safe.
+
+</details>
+
+---
+
+27. Intersection Types (Casting)
+
+Which of these is a valid (though rare) intersection cast in Java?
+
+    A) (Serializable & Runnable) obj
+    
+    B) (Serializable | Runnable) obj
+    
+    C) (Serializable, Runnable) obj
+    
+    D) Intersection types are only for definitions, not casts.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Java allows intersection types in casts using the & symbol, often used in lambda expressions to ensure a functional interface also implements a marker interface.
+
+</details>
+
+28. Generic Records (Java 14+)
+
+What is the correct syntax for a generic Record?
+
+    A) public record Box<T>(T content) {}
+    
+    B) public <T> record Box(T content) {}
+    
+    C) public record Box(T<content>) {}
+    
+    D) Records cannot be generic.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Records follow the same generic placement as classes: immediately after the name.
+
+</details>
+
+---
+
+29. Type Inference with 'var'
+
+In var list = new ArrayList<String>();, what is the type of list?
+
+    A) ArrayList<String>
+    
+    B) List<String>
+    
+    C) ArrayList<Object>
+    
+    D) var (a new runtime type)
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: var infers the exact type on the right side. Since the right side is the concrete class ArrayList<String>, that is the inferred type.
+
+</details>
+
+---
+
+30. Capture Conversion
+
+When the compiler sees List<?> but needs a specific type to perform an operation, it internally creates a "captured" type. What is the notation for this in error messages?
+
+    A) capture#1 of ?
+    
+    B) unknown type T
+    
+    C) ? extends Object
+    
+    D) Raw List
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Capture conversion is the process where the compiler "captures" the unknown type into a temporary internal name like capture#1.
+
+</details>
+
+---
+
+31. Bounded Wildcard Return Types
+
+Why is it generally considered Bad Practice to return List<? extends T> from a method?
+
+    A) It forces the caller to use wildcards and restricts their ability to add to the list.
+    
+    B) The JVM cannot serialize wildcards.
+    
+    C) It causes memory leaks.
+    
+    D) Wildcards cannot be returned by value.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: "Be conservative in what you send, liberal in what you accept." Returning wildcards makes the API difficult to use. Return concrete types; accept wildcards.
+
+</details>
+
+---
+
+32. Diamond Operator with Anonymous Classes
+
+Until Java 9, why was Handler<String> h = new Handler<>() { ... }; illegal?
+
+    A) Anonymous classes could not use the diamond operator for inference.
+    
+    B) Anonymous classes cannot be generic.
+    
+    C) The syntax was reserved for lambda expressions.
+    
+    D) It wasn't illegal; it was just rare.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Before Java 9, the diamond operator could not be used with anonymous inner classes. This restriction was lifted in Java 9.
+
+</details>
+
+---
+
+33. Reifiable Types
+
+Which of these is a Reifiable type (available at runtime)?
+
+    A) List<?>
+    
+    B) List<String>
+    
+    C) T
+    
+    D) List<? extends Number>
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Most generics are non-reifiable. However, List<?> (unbounded) is reifiable because it doesn't contain any specific type information that could be erased.
+
+</details>
+
+---
+
+34. Generic Method Shadowing
+
+If a class Box<T> has a method public <T> void set(T t), what happens?
+
+    A) The method's T shadows the class's T.
+    
+    B) The compiler throws a "Duplicate Type" error.
+    
+    C) The method's T is automatically constrained to the class's T.
+    
+    D) Shadowing is only possible with variables, not types.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Just like variable shadowing, a method-level type parameter hides a class-level parameter of the same name. This is often a source of bugs.
+    
+</details>
+
+---
+
+35. Inner Classes: Static vs Non-Static
+
+Which statement is true about a non-static inner class Inner inside Outer<T>?
+
+    A) Inner can automatically access T from Outer.
+    
+    B) Inner must declare its own <T>.
+    
+    C) Inner is erased to Object regardless of Outer.
+    
+    D) Non-static inner classes cannot be generic.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Non-static inner classes are tied to an instance of the outer class and can access its generic types. Static nested classes cannot.
+
+</details>
+
+---
+
+36. Generic Exception Declaration
+
+While you cannot catch a generic exception, can you throw one? (e.g., public <T extends Exception> void m() throws T)
+
+    A) Yes, this is valid syntax and used in "sneaky throw" patterns.
+    
+    B) No, the throws clause must be a concrete class.
+    
+    C) Yes, but only if the method is private.
+    
+    D) No, because throws is a runtime check.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: You can declare that a method throws T. The compiler will treat it as throwing its bound (e.g., Exception) at runtime.
+
+</details>
+
+---
+37. Arrays of Bounded Wildcards
+
+Is List<? extends Number>[] array = new ArrayList[10]; a legal declaration?
+
+    A) Yes, because a raw array creation followed by a cast to a wildcard-parameterized type is permitted (though it generates a warning).
+    
+    B) No, it's a generic array and thus strictly forbidden.
+    
+    C) Yes, but only if the size is a power of 2.
+    
+    D) Only in Java 17+.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: You can declare the variable. The creation new ArrayList[10] uses a raw type, which is allowed. The assignment works because wildcards are slightly more flexible than concrete types.
+
+</details>
+
+---
+
+38. Target Typing
+
+Java 8 improved type inference. In process(Collections.emptyList()), how does the compiler know the type of the empty list?
+
+    A) Target Typing: It looks at the expected parameter type of the process method.
+    
+    B) It defaults to Object.
+    
+    C) It doesn't; it throws a "Cannot infer type" error.
+    
+    D) It uses the last type used in the file.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: Target typing allows the compiler to infer the type based on where the result is being passed.
+
+</details>
+
+---
+
+39. Generic Lambda Expressions
+
+Can a lambda expression itself be generic (e.g., (T t) -> { ... })?
+
+    A) No, lambdas are instances of functional interfaces; the interface must be generic, not the lambda.
+    
+    B) Yes, using the <T> syntax before the parameters.
+    
+    C) Yes, but only in Java 21+.
+    
+    D) No, lambdas use Object exclusively.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: A lambda is just an implementation of a method. The "genericity" comes from the Functional Interface it is being assigned to.
+
+</details>
+
+---
+40. Primitive Workarounds
+
+Since List<int> is illegal, what is the most performant "workaround" in modern Java?
+
+    A) Using primitive-specialized collections (like IntList in libraries or Valhalla features).
+    
+    B) Using List<Integer> and relying on autoboxing.
+    
+    C) Using a raw int[] array.
+    
+    D) Casting int to Object manually.
+
+<details>
+    <summary><b>Click to see the answer</b></summary>
+    
+    Correct Answer: A
+    
+    Rationale: While List<Integer> is the standard syntax, it suffers from memory overhead. Specialized libraries or the upcoming Project Valhalla provide true primitive generics.
+
+</details>
+
+---
 $$\!TIP$$
 
 
