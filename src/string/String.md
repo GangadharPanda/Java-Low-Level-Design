@@ -1,5 +1,5 @@
 
-
+Summary PDF -> [String](StringMastery.pdf)
 
 ### String is immutable, how can the intern() method 'add' it to the pool?
 Answer: It doesn't change the String object itself. It updates the internal JVM StringTable (a map) to include a reference to that String object.
