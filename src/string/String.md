@@ -343,3 +343,24 @@ call(null);
 <details> <summary><b>Answer & Explanation</b></summary> Output: 2
 
 Explanation: Java resolves to the most specific matching type in the hierarchy. </details>
+
+
+
+
+
+### Wrapper Class Caching vs. SCP
+- **SCP** is dynamic and only for **Strings**.
+- **Wrapper Caches** are static arrays for **Primitives**.
+
+- **Tuning:** Only `Integer` cache high-bound can be tuned via `-XX:AutoBoxCacheMax`.
+
+The Cache Ranges:
+- Integer: -128 to 127 (The high value can be tuned via -XX:AutoBoxCacheMax).
+
+- Short, Byte, Long: -128 to 127 (Fixed, not tunable).
+
+- Character: 0 to 127 (Standard ASCII range).
+
+- Boolean: TRUE and FALSE (The only two possible instances).
+
+- Float / Double: No Cache. (There are infinite decimals between 0 and 1, so caching is impossible).
