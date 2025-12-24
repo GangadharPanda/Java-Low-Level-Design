@@ -220,6 +220,23 @@ Which statement about generic arrays is TRUE?
     
     Rationale: Arrays are reified (runtime-checked), while generics are erased. Mixing them breaks the JVM's type safety. (Note: Arrays of unbounded wildcards are technically allowed because ? is reifiable).
 
+Why Generic Arrays are Illegal (Question 10)
+       The core conflict in Java is between Arrays (which are "Reified") and Generics (which are "Erased").
+
+    
+#### Arrays are Reified:
+This means they enforce their type at runtime. If you create a String[], the JVM remembers it is specifically for Strings. If you try to sneak an Integer into it via a cast to Object[], the JVM will throw an ArrayStoreException immediately.
+
+#### Generics are Erased:
+This means type information is removed at compile time. A List<String> becomes just a raw List at runtime.
+    
+#### The Conflict:
+If Java allowed you to create a generic array like new T[10], it would be erased to new Object[10] at runtime. However, the code would treat it as a T[]. Because the array is actually an Object[], it wouldn't be able to throw an ArrayStoreException if you put the wrong type in it, effectively breaking the type-safety guarantee that Generics were supposed to provide.
+
+#### The Exception (Unbounded Wildcards):
+You can create new List<?>[10]. This is allowed because List<?> is a "reifiable" type—it doesn't have any specific type information to lose during erasure, so the JVM can safely manage the array.
+    
+
 </details>
 
 ---
@@ -760,7 +777,49 @@ If a class Box<T> has a method public <T> void set(T t), what happens?
     Correct Answer: A
     
     Rationale: Just like variable shadowing, a method-level type parameter hides a class-level parameter of the same name. This is often a source of bugs.
-    
+
+In detail : 
+        In Java Generics, shadowing occurs when you use the same name for a type parameter in a narrower scope (like a method) as one already defined in a broader scope (like the class).
+        
+The "Inner" vs "Outer" T
+
+Imagine you have a class where T is defined at the class level, but you accidentally re-declare <T> at the method level:
+
+```java
+public class Box<T> { // This is the "Outer" T
+private T item;
+
+    // By adding <T> here, you declare a NEW, independent placeholder
+    public <T> void set(T t) { // This "Inner" T shadows the Outer T
+        this.item = t; // COMPILE ERROR!
+    }
+}
+```
+
+#### Why it causes problems:
+
+##### Type Mismatch: 
+In the example above, the compiler sees this.item as belonging to the Outer T (the one the class was instantiated with), but it sees the parameter t as belonging to the Inner T (the one the method just invented). Even though they are both named T, the compiler treats them as totally different species.
+
+##### Confusing Logic: 
+If you instantiate Box<String>, the class expects a String. But because the method is generic (<T>), you could technically call box.set(123) passing an Integer. The method would accept it, but then fail to assign it to the internal field.
+
+##### Developer Intent: 
+Usually, a developer writes <T> on the method because they think they must declare it to use it. In reality, if you want to use the class-level type, you should not include the brackets in the method signature.
+
+##### The Fix
+To avoid shadowing and use the class's type correctly, simply remove the "permission slip" from the method:
+
+```java
+public class Box<T> {
+private T item;
+
+    // No <T> here; we are using the T already defined by the class
+    public void set(T t) { 
+        this.item = t; // Perfectly legal
+    }
+}
+```
 </details>
 
 ---
@@ -880,7 +939,7 @@ Can a lambda expression itself be generic (e.g., (T t) -> { ... })?
 ---
 40. Primitive Workarounds
 
-Since List<int> is illegal, what is the most performant "workaround" in modern Java?
+Since List<int> is illegal due to type erasure, which approach provides a Collection-like API while avoiding the memory/performance overhead of object boxing?
 
     A) Using primitive-specialized collections (like IntList in libraries or Valhalla features).
     
